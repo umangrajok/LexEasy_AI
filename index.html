@@ -628,6 +628,17 @@ function stopLoadingSteps() {
 // ── CONFIG ─────────────────────────────────────────────────────
 const BACKEND_URL = 'https://lexai-backend-heim.onrender.com';
 
+// Warm up the backend (Render free tier cold start)
+async function pingBackend() {
+  try {
+    // Just a small ping to wake it up
+    await fetch(BACKEND_URL + '/api/ping'); 
+    console.log('Backend waking up...');
+  } catch (e) {
+    // Ignore errors for ping
+  }
+}
+
 async function fetchWithRetry(url, options, retries = 2) {
   for (let i = 0; i <= retries; i++) {
     try {
@@ -692,10 +703,20 @@ async function analyze() {
   
   if (selectedFile && !originalText) {
     try {
+      // Provide feedback for long file reading
+      const ext = selectedFile.name.split('.').pop().toLowerCase();
+      if (['png', 'jpg', 'jpeg'].includes(ext)) {
+        UI.uploadTitle.innerText = "Extracting text from image (OCR)...";
+      } else if (ext === 'pdf') {
+        UI.uploadTitle.innerText = "Reading PDF document...";
+      }
+      
       originalText = await readFile(selectedFile);
       if (!originalText || originalText.length < 20) throw new Error('No readable text found.');
+      UI.uploadTitle.innerText = getLang().uploadTitle; // Reset title
     } catch(err) {
       showError(err.message);
+      UI.uploadTitle.innerText = getLang().uploadTitle; // Reset title
       return;
     }
   }
@@ -709,12 +730,20 @@ async function analyze() {
   clearError();
   startLoadingSteps();
 
+  // Show a "Waking up server" message if it takes too long
+  const warmupTimeout = setTimeout(() => {
+    showError("Render server is waking up (cold start)... please wait a moment.");
+  }, 10000);
+
   try {
     const res = await fetchWithRetry(BACKEND_URL + '/api/analyze', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text: originalText, responseLang: currentRespLang })
     });
+    
+    clearTimeout(warmupTimeout); // Request finished, clear the timeout
+    clearError(); // Clear the "waking up" message
 
     const responseText = await res.text();
     let data;
@@ -730,6 +759,7 @@ async function analyze() {
     stopLoadingSteps();
     setTimeout(() => showResult(data.analysis), 300);
   } catch(err) {
+    clearTimeout(warmupTimeout);
     stopLoadingSteps();
     showError(humanizeError(err));
   } finally {
@@ -969,7 +999,12 @@ async function runTypewriterOnce() {
 document.addEventListener('DOMContentLoaded', () => {
   runTypewriterOnce();
   initMagneticButtons();
+  pingBackend(); // Wake up Render on load
 });
+
+// Also ping when user starts typing or interacts
+UI.pasteText.addEventListener('input', () => { if (UI.pasteText.value.length === 1) pingBackend(); });
+UI.fileInput.addEventListener('change', () => pingBackend());
 
 function initMagneticButtons() {
   const buttons = document.querySelectorAll('.btn-analyze, .btn-new');
