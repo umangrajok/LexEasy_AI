@@ -440,6 +440,11 @@ footer strong { color: var(--text2); font-weight: 500; }
       <div class="textarea-label"><span data-i18n="textareaLabel">Document text</span></div>
       <textarea id="pasteText" data-i18n-placeholder="pasteHolder" placeholder="Paste any legal text here..."></textarea>
 
+      <!-- BOT HONEYPOT (Invisible to humans) -->
+      <div style="display:none !important; opacity:0; pointer-events:none;">
+        <input type="text" id="hp_field" tabindex="-1" autocomplete="off">
+      </div>
+
       <div class="consent-box">
         <div class="consent-row" id="consentRowMaster" onclick="toggleMasterConsent()">
           <div class="custom-check" id="checkMaster"><svg class="check-icon" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></div>
@@ -575,8 +580,6 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs
 let selectedFile = null;
 let stepTimer = null;
 let originalText = '';
-const STEPS = ['ls1','ls2','ls3','ls4'];
-const DOTS = ['ld1','ld2','ld3','ld4'];
 
 UI.zone.addEventListener('dragover', e => { e.preventDefault(); UI.zone.classList.add('drag-over'); });
 UI.zone.addEventListener('dragleave', () => UI.zone.classList.remove('drag-over'));
@@ -598,41 +601,14 @@ function removeFile() {
   UI.fileInput.value = '';
 }
 
-function startLoadingSteps() {
-  let i = 0;
-  STEPS.forEach(s => document.getElementById(s).className = 'l-step');
-  DOTS.forEach((d, idx) => document.getElementById(d).textContent = idx + 1);
-  
-  function next() {
-    if (i > 0) {
-      document.getElementById(STEPS[i-1]).className = 'l-step done';
-      document.getElementById(DOTS[i-1]).textContent = '✓';
-    }
-    if (i < STEPS.length) {
-      document.getElementById(STEPS[i]).className = 'l-step active';
-      i++;
-      stepTimer = setTimeout(next, 4000); // Faster steps for better UX
-    }
-  }
-  next();
-}
-
-function stopLoadingSteps() {
-  clearTimeout(stepTimer);
-  STEPS.forEach((s,i) => {
-    document.getElementById(s).className = 'l-step done';
-    document.getElementById(DOTS[i]).textContent = '✓';
-  });
-}
-
 // ── CONFIG ─────────────────────────────────────────────────────
 const BACKEND_URL = 'https://lexai-backend-heim.onrender.com';
 
 // Warm up the backend (Render free tier cold start)
 async function pingBackend() {
   try {
-    // Just a small ping to wake it up
-    await fetch(BACKEND_URL + '/api/ping'); 
+    // Just hit the root to wake it up, as /api/ping may not exist
+    await fetch(BACKEND_URL + '/'); 
     console.log('Backend waking up...');
   } catch (e) {
     // Ignore errors for ping
@@ -699,6 +675,8 @@ async function readFile(file) {
 }
 
 async function analyze() {
+  if (checkBot()) return;
+  
   originalText = UI.pasteText.value.trim();
   
   if (selectedFile && !originalText) {
@@ -728,7 +706,6 @@ async function analyze() {
   UI.result.classList.remove('show');
   UI.zone.classList.add('processing');
   clearError();
-  startLoadingSteps();
 
   // Show a "Waking up server" message if it takes too long
   const warmupTimeout = setTimeout(() => {
@@ -756,11 +733,10 @@ async function analyze() {
 
     if (!res.ok || !data.success) throw new Error(data.error || 'Analysis failed.');
 
-    stopLoadingSteps();
+    lastAnalyzeTime = Date.now(); // Reset cooldown after success
     setTimeout(() => showResult(data.analysis), 300);
   } catch(err) {
     clearTimeout(warmupTimeout);
-    stopLoadingSteps();
     showError(humanizeError(err));
   } finally {
     UI.loading.classList.remove('show');
@@ -1037,6 +1013,29 @@ function handleSurvey(isSatisfied) {
   document.querySelector('#satisfactionSurvey .survey-buttons').style.display = 'none';
   document.querySelector('#satisfactionSurvey p').style.display = 'none';
   document.getElementById('surveyThanks').style.display = 'block';
+}
+
+// ── ANTI-BOT PROTECTION ───────────────────────────────────────────────────
+let lastAnalyzeTime = 0;
+const COOLDOWN_MS = 30000; // 30 seconds cooldown for humans
+
+function checkBot() {
+  // 1. Honeypot check: Bots will likely fill this hidden field
+  const hpValue = document.getElementById('hp_field').value;
+  if (hpValue) {
+    console.warn("Bot detected via Honeypot.");
+    return true;
+  }
+
+  // 2. Client-side rate limiting (Cooldown)
+  const now = Date.now();
+  if (now - lastAnalyzeTime < COOLDOWN_MS) {
+    const remaining = Math.ceil((COOLDOWN_MS - (now - lastAnalyzeTime)) / 1000);
+    showError(`Please wait ${remaining} seconds before another analysis.`);
+    return true;
+  }
+
+  return false;
 }
 // ─────────────────────────────────────────────────────────────────────────────
 </script>
