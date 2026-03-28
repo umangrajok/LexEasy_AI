@@ -1,0 +1,5 @@
+# https://lexeasy.in
+User-agent: *
+Allow: /
+
+Sitemap: https://lexeasy.in/sitemap.xml

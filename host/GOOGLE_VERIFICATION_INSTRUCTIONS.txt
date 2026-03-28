@@ -1,0 +1,18 @@
+GOOGLE SEARCH CONSOLE VERIFICATION INSTRUCTIONS:
+
+1. Go to Google Search Console: https://search.google.com/search-console
+2. Click "Add Property" and select "Domain" or "URL Prefix"
+3. Enter: https://lexeasy.in/
+4. Choose verification method: "HTML file upload"
+5. Google will provide a specific filename like: google123456789abcdef.html
+6. Replace the content of google-site-verification.html with the exact verification string Google provides
+7. The file should contain ONLY the verification string, no HTML tags or comments
+
+Example format (your actual code will be different):
+google-site-verification: abcdef123456789.html
+
+After uploading, click "Verify" in Google Search Console.
+
+ALTERNATIVE: DNS TXT RECORD METHOD
+If you prefer DNS verification, add this TXT record to your domain:
+google-site-verification=your-verification-code-here
