@@ -2,34 +2,19 @@
   "rewrites": [
     {
       "source": "/sitemap.xml",
-      "destination": "/sitemap.xml"
+      "destination": "/api/sitemap"
     },
     {
-      "source": "/robots.txt",
-      "destination": "/robots.txt"
+      "source": "/robots.txt", 
+      "destination": "/api/robots"
     },
     {
       "source": "/favicon.svg",
-      "destination": "/favicon.svg"
-    },
-    {
-      "source": "/favicon.ico",
-      "destination": "/favicon.ico"
+      "destination": "/api/favicon"
     },
     {
       "source": "/(.*)",
       "destination": "/host/$1"
-    }
-  ],
-  "headers": [
-    {
-      "source": "/(.*\\.(svg|ico|xml|txt))",
-      "headers": [
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
     }
   ]
 }

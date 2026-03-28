@@ -259,6 +259,19 @@ app.get('/health', (req, res) => {
   });
 });
 
+// ─── STATIC FILES API ───────────────────────────────────
+app.get('/api/favicon', (req, res) => {
+  res.sendFile(path.join(__dirname, 'favicon.svg'));
+});
+
+app.get('/api/sitemap', (req, res) => {
+  res.sendFile(path.join(__dirname, 'sitemap.xml'));
+});
+
+app.get('/api/robots', (req, res) => {
+  res.sendFile(path.join(__dirname, 'robots.txt'));
+});
+
 // ─── STATIC SITE (LexEasy UI) ───────────────────────────
 app.use(express.static(HOST_DIR, { index: ['index.html'] }));
 app.get('*', (req, res, next) => {
