@@ -123,16 +123,33 @@ app.post(
   requireClientKey,
   analyzeLimiter,
   async (req, res) => {
-  const { text, responseLang = 'en' } = req.body;
+    console.log('API Request Received');
+    console.log('Request timestamp:', new Date().toISOString());
+    
+    const { text, responseLang = 'en' } = req.body;
+    const originalText = text.trim();
+    console.log('Request Body:', req.body);
+    console.log('Original Text:', originalText);
 
-  // Validation
-  if (!text || typeof text !== 'string') {
-    return res.status(400).json({ error: 'No document text provided.' });
-  }
-  const trimmed = text.trim();
-  if (trimmed.length < 20) {
-    return res.status(400).json({ error: 'Document text too short to analyze.' });
-  }
+    if (!text || typeof text !== 'string') {
+      console.log('Error: No document text provided.');
+      return res.status(400).json({ error: 'No document text provided.' });
+    }
+    const trimmed = text.trim();
+    if (trimmed.length < 20) {
+      console.log('Error: Document text too short to analyze.');
+      return res.status(400).json({ error: 'Document text too short to analyze.' });
+    }
+    if (trimmed.length > MAX_DOCUMENT_CHARS) {
+      console.log('Error: Document is too long. Maximum', MAX_DOCUMENT_CHARS, 'characters allowed.');
+      return res.status(400).json({
+        error: `Document is too long. Maximum ${MAX_DOCUMENT_CHARS} characters allowed.`,
+      });
+    }
+    if (!process.env.GEMINI_API_KEY) {
+      console.log('Error: API key not configured on server.');
+      return res.status(500).json({ error: 'API key not configured on server.' });
+    }
   if (trimmed.length > MAX_DOCUMENT_CHARS) {
     return res.status(400).json({
       error: `Document is too long. Maximum ${MAX_DOCUMENT_CHARS} characters allowed.`,
@@ -185,6 +202,10 @@ Return ONLY this JSON format:
   "advice": "<should they sign or not, what to negotiate, practical next steps>"
 }`;
 
+  console.log('Payload Length:', trimmed.length, 'characters');
+  console.log('Language:', langKey);
+  console.log('Calling Gemini API...');
+
   try {
     const geminiRes = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${process.env.GEMINI_API_KEY}`,
@@ -201,7 +222,10 @@ Return ONLY this JSON format:
       }
     );
 
+    console.log('Gemini API Response Status:', geminiRes.status);
+
     if (!geminiRes.ok) {
+      console.log('Gemini API Error - Status:', geminiRes.status);
       // Gemini may return JSON or plain text depending on error type.
       let errMessage = 'Gemini API error';
       try {
@@ -216,9 +240,11 @@ Return ONLY this JSON format:
           const txt = await geminiRes.text();
           errMessage = txt || errMessage;
         }
+        console.log('Gemini Error Details:', errMessage);
       } catch (e) {
         // Fallback: still surface the HTTP status
         errMessage = `Gemini API request failed (HTTP ${geminiRes.status}).`;
+        console.log('Gemini Error Fallback:', errMessage);
       }
 
       const error = new Error(errMessage);
@@ -229,18 +255,29 @@ Return ONLY this JSON format:
     const geminiData = await geminiRes.json();
     const raw = geminiData?.candidates?.[0]?.content?.parts?.[0]?.text;
 
-    if (!raw) throw new Error('Empty response from Gemini');
+    console.log('Gemini AI Success - Response received');
+    console.log('Raw Response Length:', raw?.length || 0, 'characters');
+
+    if (!raw) {
+      console.log('Error: Empty response from Gemini');
+      throw new Error('Empty response from Gemini');
+    }
 
     // Extract JSON safely
     const match = raw.match(/\{[\s\S]*\}/);
-    if (!match) throw new Error('Could not parse AI response as JSON');
+    if (!match) {
+      console.log('Error: Could not parse AI response as JSON');
+      throw new Error('Could not parse AI response as JSON');
+    }
 
     const analysis = JSON.parse(match[0]);
+    console.log('Analysis parsed successfully - Safety Score:', analysis.safety_score);
 
     return res.json({ success: true, analysis });
 
   } catch (err) {
-    console.error('Analysis error:', err.message);
+    console.error('API Error:', err.message);
+    console.error('Full Error Object:', err);
     return res
       .status(err?.httpStatus || 500)
       .json({ error: err.message || 'Analysis failed. Please try again.' });
