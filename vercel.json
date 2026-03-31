@@ -1,18 +1,6 @@
 {
   "rewrites": [
     {
-      "source": "/sitemap.xml",
-      "destination": "/api/sitemap"
-    },
-    {
-      "source": "/robots.txt", 
-      "destination": "/api/robots"
-    },
-    {
-      "source": "/favicon.svg",
-      "destination": "/api/favicon"
-    },
-    {
       "source": "/(.*)",
       "destination": "/host/$1"
     }
