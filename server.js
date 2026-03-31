@@ -26,11 +26,10 @@ const DEFAULT_ORIGINS = [
 
 function buildAllowedOrigins() {
   const set = new Set(DEFAULT_ORIGINS);
-  const extra = process.env.ALLOWED_ORIGINS;
-  if (extra) {
-    extra
+  if (process.env.ALLOWED_ORIGINS) {
+    process.env.ALLOWED_ORIGINS
       .split(',')
-      .map((s) => s.trim())
+      .map(o => o.trim())
       .filter(Boolean)
       .forEach((o) => set.add(o));
   }
@@ -39,6 +38,7 @@ function buildAllowedOrigins() {
 
 const ALLOWED_ORIGINS = buildAllowedOrigins();
 
+// CORS middleware - only for development, not needed for Vercel same-origin
 const corsOptions = {
   origin(origin, cb) {
     // Allow server-to-server, curl, Vercel health checks, and local `file://` testing (origin will be `undefined` or `null`)
@@ -52,6 +52,11 @@ const corsOptions = {
   maxAge: 86400,
 };
 
+// Only use CORS in development
+if (process.env.NODE_ENV !== 'production') {
+  app.use(require('cors')(corsOptions));
+}
+
 app.use(
   helmet({
     // API responses should be readable cross-origin when CORS allows it
@@ -60,8 +65,6 @@ app.use(
 );
 // Cap JSON body (large OCR text still allowed within limit)
 app.use(express.json({ limit: process.env.JSON_BODY_LIMIT || '512kb' }));
-app.use(cors(corsOptions));
-app.options('*', cors(corsOptions));
 
 // ─── SECURITY: per-IP rate limit (short window) ─────────
 const RATE_WINDOW_MS = parseInt(process.env.RATE_WINDOW_MS || '900000', 10); // 15 min default

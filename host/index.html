@@ -635,12 +635,10 @@ function removeFile() {
 
 // ── CONFIG ─────────────────────────────────────────────────────
 function getBackendBase() {
-  // Force return empty string for same-origin requests
-  // Ignore any meta tag or cached values
+  // Always use relative path for same-origin requests
   return '';
 }
 
-const BACKEND_URL = getBackendBase();
 const MAX_TEXT_CHARS = 8000;
 
 function buildAnalyzeHeaders() {
@@ -663,7 +661,7 @@ function escHtml(s) {
 // Warm up the backend (Vercel serverless cold start)
 async function pingBackend() {
   try {
-    await fetch(BACKEND_URL + '/health');
+    await fetch('/health');
   } catch (e) {
     // ignore
   }
@@ -782,7 +780,7 @@ async function analyze() {
   }, 10000);
 
   try {
-    const res = await fetchWithRetry(BACKEND_URL + '/api/analyze', {
+    const res = await fetchWithRetry('/api/analyze', {
       method: 'POST',
       headers: buildAnalyzeHeaders(),
       body: JSON.stringify({ text: originalText, responseLang: currentRespLang })
