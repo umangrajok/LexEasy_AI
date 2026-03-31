@@ -634,18 +634,13 @@ function removeFile() {
 }
 
 // ── CONFIG ─────────────────────────────────────────────────────
-const PRODUCTION_API = 'https://lex-easy-ai.vercel.app';
-
 function getBackendBase() {
   const meta = document.querySelector('meta[name="lexai-api-base"]');
   if (meta && meta.content && meta.content.trim()) {
     return meta.content.trim().replace(/\/$/, '');
   }
-  const h = window.location.hostname;
-  if (h === 'localhost' || h === '127.0.0.1') {
-    return `${window.location.protocol}//${window.location.host}`;
-  }
-  return PRODUCTION_API;
+  // Always use relative path for same-origin requests
+  return '';
 }
 
 const BACKEND_URL = getBackendBase();
