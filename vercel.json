@@ -1,9 +1,0 @@
-{
-  "outputDirectory": "host",
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "/host/$1"
-    }
-  ]
-}
