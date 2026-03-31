@@ -41,7 +41,7 @@ const ALLOWED_ORIGINS = buildAllowedOrigins();
 
 const corsOptions = {
   origin(origin, cb) {
-    // Allow server-to-server, curl, Render health checks, and local `file://` testing (origin will be `undefined` or `null`)
+    // Allow server-to-server, curl, Vercel health checks, and local `file://` testing (origin will be `undefined` or `null`)
     if (!origin || origin === 'null') return cb(null, true);
     if (ALLOWED_ORIGINS.has(origin)) return cb(null, true);
     return cb(null, false);
@@ -319,7 +319,7 @@ if (require.main === module) {
     console.log(`🤖 AI: Google Gemini 1.5 Flash`);
   });
   
-  // Render cold starts can be slow; keep request timeouts generous.
+  // Serverless functions can have cold starts; keep request timeouts generous.
   server.requestTimeout = 120_000; // 120s
   server.headersTimeout = 125_000; // must be > requestTimeout
 }

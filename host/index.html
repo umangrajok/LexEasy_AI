@@ -3,9 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- Optional: set full API base URL (no trailing slash). Empty = auto (localhost = same origin, else Render). -->
+<!-- Optional: set full API base URL (no trailing slash). Empty = auto (localhost = same origin, else Vercel). -->
 <meta name="lexai-api-base" content="">
-<!-- If server has CLIENT_API_KEY set, paste the same value here (Render + GitHub Pages). Leave empty if not used. -->
+<!-- If server has CLIENT_API_KEY set, paste the same value here (Vercel + GitHub Pages). Leave empty if not used. -->
 <meta name="lexai-client-key" content="">
 <title>LexEasy — AI Legal Assistant | Understand Documents in 30 Seconds</title>
 <meta name="description" content="LexEasy uses AI to simplify complex legal jargon instantly. Upload any document and get a clear, jargon-free explanation. Safe, secure, and accessible for everyone.">
@@ -634,7 +634,7 @@ function removeFile() {
 }
 
 // ── CONFIG ─────────────────────────────────────────────────────
-const PRODUCTION_API = 'https://lexai-backend-heim.onrender.com';
+const PRODUCTION_API = 'https://lex-easy-ai.vercel.app';
 
 function getBackendBase() {
   const meta = document.querySelector('meta[name="lexai-api-base"]');
@@ -668,7 +668,7 @@ function escHtml(s) {
     .replace(/"/g, '&quot;');
 }
 
-// Warm up the backend (Render free tier cold start)
+// Warm up the backend (Vercel serverless cold start)
 async function pingBackend() {
   try {
     await fetch(BACKEND_URL + '/health');
@@ -786,7 +786,7 @@ async function analyze() {
 
   // Show a "Waking up server" message if it takes too long
   const warmupTimeout = setTimeout(() => {
-    showError("Render server is waking up (cold start)... please wait a moment.");
+    showError("Vercel serverless is waking up (cold start)... please wait a moment.");
   }, 10000);
 
   try {
