@@ -307,14 +307,20 @@ app.use((err, req, res, next) => {
   return res.status(500).json({ error: err?.message || 'Server error. Please try again.' });
 });
 
-// ─── START ──────────────────────────────────────────────
-const server = app.listen(PORT, () => {
-  console.log(`✅ LexAI Backend running on port ${PORT}`);
-  console.log(`🌐 UI: http://localhost:${PORT}/ (folder: /host)`);
-  console.log(`🤖 AI: Google Gemini 1.5 Flash`);
-});
+// ─── EXPORT FOR VERCEL SERVERLESS ─────────────────────
+module.exports = app;
 
-// Render cold starts can be slow; keep request timeouts generous.
-server.requestTimeout = 120_000; // 120s
-server.headersTimeout = 125_000; // must be > requestTimeout
+// ─── LOCAL DEVELOPMENT ONLY ─────────────────────────────
+if (require.main === module) {
+  const PORT = process.env.PORT || 3000;
+  const server = app.listen(PORT, () => {
+    console.log(`✅ LexAI Backend running on port ${PORT}`);
+    console.log(`🌐 UI: http://localhost:${PORT}/ (folder: /host)`);
+    console.log(`🤖 AI: Google Gemini 1.5 Flash`);
+  });
+  
+  // Render cold starts can be slow; keep request timeouts generous.
+  server.requestTimeout = 120_000; // 120s
+  server.headersTimeout = 125_000; // must be > requestTimeout
+}
 server.keepAliveTimeout = 65_000;
