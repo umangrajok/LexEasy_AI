@@ -120,6 +120,9 @@ const PROMPT_CHARS = Math.min(
 );
 const ALLOWED_LANGS = new Set(['en', 'hi', 'hinglish']);
 
+// In-memory cache for AI responses
+const aiResponseCache = new Map();
+
 // ─── ANALYZE ENDPOINT ──────────────────────────────────
 app.post(
   '/api/analyze',
@@ -128,10 +131,15 @@ app.post(
   async (req, res) => {
     console.log('API Request Received');
     console.log('Request timestamp:', new Date().toISOString());
+    console.log('Enhanced Context:', req.enhancedContext);
     
     const { text, responseLang = 'en' } = req.body;
-    const originalText = text.trim();
-    console.log('Request Body:', req.body);
+    
+    // Use validated input from API route if available
+    const originalText = req.enhancedContext?.validatedInput || text.trim();
+    const clientId = req.enhancedContext?.clientId || 'unknown';
+    
+    console.log('Request Body:', { text: originalText, responseLang });
     console.log('Original Text:', originalText);
 
     if (!text || typeof text !== 'string') {
@@ -152,6 +160,15 @@ app.post(
     if (!process.env.GEMINI_API_KEY) {
       console.log('Error: API key not configured on server.');
       return res.status(500).json({ error: 'API key not configured on server.' });
+    }
+
+    // Check cache first
+    const inputHash = require('crypto').createHash('sha256').update(trimmed).digest('hex');
+    const cachedResponse = aiResponseCache.get(inputHash);
+    if (cachedResponse) {
+      console.log('✅ AI Cache hit - returning cached response');
+      console.log('Cached Safety Score:', cachedResponse.safety_score);
+      return res.json({ success: true, analysis: cachedResponse, cached: true });
     }
   if (trimmed.length > MAX_DOCUMENT_CHARS) {
     return res.status(400).json({
@@ -276,7 +293,15 @@ Return ONLY this JSON format:
     const analysis = JSON.parse(match[0]);
     console.log('Analysis parsed successfully - Safety Score:', analysis.safety_score);
 
-    return res.json({ success: true, analysis });
+    // Cache the AI response
+    aiResponseCache.set(inputHash, analysis);
+    
+    // Clean cache after 1 hour
+    setTimeout(() => {
+      aiResponseCache.delete(inputHash);
+    }, 60 * 60 * 1000);
+
+    return res.json({ success: true, analysis, cached: false });
 
   } catch (err) {
     console.error('API Error:', err.message);

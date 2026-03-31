@@ -737,88 +737,117 @@ async function readFile(file) {
   throw new Error('Unsupported file type.');
 }
 
-async function analyze() {
-  if (checkBot()) return;
-  
-  originalText = UI.pasteText.value.trim();
-  
-  if (selectedFile && !originalText) {
-    try {
-      // Provide feedback for long file reading
-      const ext = selectedFile.name.split('.').pop().toLowerCase();
-      if (['png', 'jpg', 'jpeg'].includes(ext)) {
-        UI.uploadTitle.innerText = "Extracting text from image (OCR)...";
-      } else if (ext === 'pdf') {
-        UI.uploadTitle.innerText = "Reading PDF document...";
-      }
-      
-      originalText = await readFile(selectedFile);
-      if (!originalText || originalText.length < 20) throw new Error('No readable text found.');
-      UI.uploadTitle.innerText = getLang().uploadTitle; // Reset title
-    } catch(err) {
-      showError(err.message);
-      UI.uploadTitle.innerText = getLang().uploadTitle; // Reset title
-      return;
-    }
-  }
-  
-  if (!originalText) return alert(getLang().alertEmpty);
-  if (originalText.length > MAX_TEXT_CHARS) {
-    showError(`Text is too long (max ${MAX_TEXT_CHARS} characters). Please shorten and try again.`);
+let isRequestInProgress = false;
+let requestDebounceTimer = null;
+let lastRequestInput = '';
+
+async function analyzeDocument() {
+  // Prevent multiple simultaneous requests
+  if (isRequestInProgress) {
+    showError('Please wait for current analysis to complete.');
     return;
   }
 
+  const originalText = getDocumentText();
+  
+  // Input validation
+  if (!originalText || typeof originalText !== 'string') {
+    showError('Please upload a document first.');
+    return;
+  }
+  
+  const trimmed = originalText.trim();
+  if (trimmed.length < 20) {
+    showError('Document text is too short to analyze (minimum 20 characters).');
+    return;
+  }
+  
+  // Check for duplicate requests
+  if (trimmed === lastRequestInput) {
+    showError('This document was already analyzed. Please upload a different document.');
+    return;
+  }
+
+  // Debounce rapid clicks
+  if (requestDebounceTimer) {
+    clearTimeout(requestDebounceTimer);
+  }
+  
+  requestDebounceTimer = setTimeout(async () => {
+    await performAnalysis(trimmed);
+  }, 500);
+}
+
+async function performAnalysis(originalText) {
+  // Set loading state
+  isRequestInProgress = true;
+  lastRequestInput = originalText;
+  
   UI.analyzeBtn.disabled = true;
+  UI.analyzeBtn.innerHTML = `<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Analyzing...`;
   UI.loading.classList.add('show');
   UI.result.classList.remove('show');
   UI.zone.classList.add('processing');
   clearError();
 
-  // Show a "Waking up server" message if it takes too long
+  // Show loading timeout message
   const warmupTimeout = setTimeout(() => {
-    showError("Vercel serverless is waking up (cold start)... please wait a moment.");
-  }, 10000);
+    showError("AI is analyzing your document... please wait a moment.");
+  }, 5000);
 
   try {
+    console.log('Frontend: Sending analysis request');
+    console.log('Input length:', originalText.length, 'characters');
+    
     const res = await fetchWithRetry('/api/analyze', {
       method: 'POST',
       headers: buildAnalyzeHeaders(),
       body: JSON.stringify({ text: originalText, responseLang: currentRespLang })
     });
     
-    clearTimeout(warmupTimeout); // Request finished, clear the timeout
-    clearError(); // Clear the "waking up" message
+    clearTimeout(warmupTimeout);
+    clearError();
 
     const responseText = await res.text();
     let data;
+    
     try {
       data = JSON.parse(responseText);
     } catch (e) {
-      const snippet = (responseText || '').slice(0, 100);
-      if (!res.ok) {
-        throw new Error(
-          res.status === 429
-            ? 'Too many requests. Please wait before trying again.'
-            : `Request failed (${res.status}). ${snippet}`
-        );
-      }
-      throw new Error(`Invalid response from server: ${snippet}`);
+      console.error('Frontend: Failed to parse response:', responseText);
+      showError('Invalid response from server. Please try again.');
+      return;
     }
 
     if (!res.ok) {
-      const msg = data.error || data.message || `Request failed (${res.status}).`;
-      throw new Error(msg);
+      if (res.status === 429) {
+        showError('Too many requests. Please wait a moment before trying again.');
+      } else if (res.status === 400) {
+        showError('Invalid request. Please check your document and try again.');
+      } else {
+        showError(`Server error (${res.status}). Please try again.`);
+      }
+      return;
     }
-    if (!data.success) throw new Error(data.error || 'Analysis failed.');
 
-    lastAnalyzeTime = Date.now(); // Reset cooldown after success
-    setTimeout(() => showResult(data.analysis), 300);
-  } catch(err) {
-    clearTimeout(warmupTimeout);
-    showError(humanizeError(err));
+    if (!data.success) {
+      showError(data.error || 'Analysis failed. Please try again.');
+      return;
+    }
+
+    // Success - display results
+    displayAnalysis(data.analysis);
+    console.log('Frontend: Analysis completed successfully');
+
+  } catch (err) {
+    console.error('Frontend: Analysis error:', err);
+    showError('Network error. Please check your connection and try again.');
   } finally {
-    UI.loading.classList.remove('show');
+    // Reset loading state
+    isRequestInProgress = false;
     UI.analyzeBtn.disabled = false;
+    UI.analyzeBtn.innerHTML = `<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> ${getLang().btnReady}`;
+    UI.loading.classList.remove('show');
     UI.zone.classList.remove('processing');
   }
 }
