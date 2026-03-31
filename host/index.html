@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Optional: set full API base URL (no trailing slash). Empty = auto (localhost = same origin, else Vercel). -->
-<meta name="lexai-api-base" content="">
+<!-- <meta name="lexai-api-base" content=""> -->
 <!-- If server has CLIENT_API_KEY set, paste the same value here (Vercel + GitHub Pages). Leave empty if not used. -->
 <meta name="lexai-client-key" content="">
 <title>LexEasy — AI Legal Assistant | Understand Documents in 30 Seconds</title>
@@ -635,11 +635,8 @@ function removeFile() {
 
 // ── CONFIG ─────────────────────────────────────────────────────
 function getBackendBase() {
-  const meta = document.querySelector('meta[name="lexai-api-base"]');
-  if (meta && meta.content && meta.content.trim()) {
-    return meta.content.trim().replace(/\/$/, '');
-  }
-  // Always use relative path for same-origin requests
+  // Force return empty string for same-origin requests
+  // Ignore any meta tag or cached values
   return '';
 }
 
