@@ -39,7 +39,7 @@ ${text.slice(0, 4000)}`;
 async function callGemini(prompt: string, premium: boolean) {
   const key = process.env.GEMINI_API_KEY;
   if (!key) throw new Error("GEMINI_API_KEY is missing.");
-  const model = premium ? "gemini-1.5-pro" : "gemini-1.5-flash";
+  const model = premium ? "gemini-1.5-pro-latest" : "gemini-1.5-flash-latest";
   const res = await fetch(
     `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${key}`,
     {

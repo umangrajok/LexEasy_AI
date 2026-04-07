@@ -1,6 +1,5 @@
 "use client";
 
-import { signIn, signOut, useSession } from "next-auth/react";
 import { useMemo, useState } from "react";
 
 type Analysis = {
@@ -20,7 +19,6 @@ const steps = [
 ];
 
 export default function Page() {
-  const { data: session } = useSession();
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
   const [loadingStep, setLoadingStep] = useState(0);
@@ -77,33 +75,29 @@ export default function Page() {
       <nav className="navbar">
         <div className="brand">LexEasy</div>
         <div className="navRight">
-          <span className="pill">Early Access</span>
-          {session?.user ? (
-            <button className="ghostBtn" onClick={() => signOut()}>
-              Sign out
-            </button>
-          ) : (
-            <button className="ghostBtn" onClick={() => signIn("google")}>
-              Sign in with Google
-            </button>
-          )}
+          <span className="pill">FREE BETA</span>
+          <div className="langSwitch">
+            <button className="langBtn active">EN</button>
+            <button className="langBtn">HI</button>
+            <button className="langBtn">HG</button>
+          </div>
         </div>
       </nav>
 
       <section className="hero">
-        <p className="eyebrow">AI legal assistant for India</p>
+        <p className="eyebrow">India&apos;s #1 Legal AI Assistant</p>
         <h1>
           Legal documents,
           <br />
           <span>understood.</span>
         </h1>
         <p className="sub">
-          Premium legal intelligence with clear explanations, risk highlights, and practical guidance.
+          Upload any document. AI will tell you in 30 seconds - is it safe to sign or not. Simple, clear language.
         </p>
         <div className="trust">
           <span>File never saved</span>
-          <span>Free + paid plans</span>
-          <span>Fast AI analysis</span>
+          <span>Completely free</span>
+          <span>30 second results</span>
         </div>
       </section>
 
@@ -145,7 +139,7 @@ export default function Page() {
         {upgrade ? (
           <div className="upgrade">
             <h3>Upgrade to continue</h3>
-            <p>Free: 1 chat up to 5 pages. Unlock deep research with paid access.</p>
+            <p>Free plan limit reached. Choose a plan to continue deep research.</p>
             <div className="priceRow">
               <span>INR 10/use</span>
               <span>INR 99/mo</span>
