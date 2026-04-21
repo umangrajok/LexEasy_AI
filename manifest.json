@@ -1,0 +1,22 @@
+{
+  "name": "LexEasy",
+  "short_name": "LexEasy",
+  "description": "AI legal assistant and document analyzer for contracts, agreements, and legal documents.",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/favicon.png",
+      "sizes": "32x32",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "theme_color": "#10b981",
+  "background_color": "#ffffff"
+}
