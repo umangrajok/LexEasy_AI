@@ -311,13 +311,89 @@ textarea::placeholder { color: var(--text4); }
 .feat-card h4 { font-family: var(--font-head); font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 6px; letter-spacing: -0.2px; }
 .feat-card p { font-size: 13px; color: var(--text3); line-height: 1.65; }
 
-.about { position: relative; z-index: 1; max-width: 680px; margin: 0 auto; padding: 40px 24px 100px; text-align: center; background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(59, 130, 246, 0.08) 100%); animation: hero-in 0.7s 0.2s cubic-bezier(0.22,1,0.36,1) both; }
-.about h3 { font-family: var(--font-head); font-size: 24px; font-weight: 600; color: var(--navy); margin-bottom: 16px; }
-.about p { font-size: 16px; color: var(--text3); line-height: 1.6; margin-bottom: 12px; }
-.about-card { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.2); border-radius: 24px; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); padding: 32px; max-width: 500px; margin: 0 auto; }
-.linkedin-btn { display: inline-flex; align-items: center; gap: 8px; background: #0077b5; color: white; padding: 12px 20px; border-radius: 8px; text-decoration: none; font-weight: 500; font-size: 14px; transition: all 0.2s; margin-top: 20px; }
-.linkedin-btn:hover { background: #005885; transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0, 119, 181, 0.3); }
-.linkedin-btn svg { width: 16px; height: 16px; }
+/* ── ABOUT SECTION with GLASSMORPHISM ─────────────────────────────────── */
+.about {
+  position: relative;
+  z-index: 1;
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 60px 24px 100px;
+  text-align: center;
+  background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+  animation: hero-in 0.7s 0.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.about h3 {
+  font-family: var(--font-head);
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 20px;
+  letter-spacing: -0.5px;
+}
+
+.about p {
+  font-size: 15px;
+  color: var(--text2);
+  line-height: 1.7;
+  margin-bottom: 14px;
+}
+
+.about-card {
+  background: rgba(255, 255, 255, 0.12);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  border-radius: 20px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), inset 0 1px 1px rgba(255, 255, 255, 0.2);
+  padding: 40px 32px;
+  max-width: 520px;
+  margin: 0 auto;
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.about-card:hover {
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15), inset 0 1px 1px rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.linkedin-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background: linear-gradient(135deg, #0077b5 0%, #005885 100%);
+  color: white;
+  padding: 13px 24px;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 14px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  margin-top: 24px;
+  box-shadow: 0 4px 15px rgba(0, 119, 181, 0.25);
+  letter-spacing: 0.3px;
+}
+
+.linkedin-btn:hover {
+  background: linear-gradient(135deg, #005885 0%, #003d5c 100%);
+  transform: translateY(-3px);
+  box-shadow: 0 6px 24px rgba(0, 119, 181, 0.4);
+}
+
+.linkedin-btn:active {
+  transform: translateY(-1px);
+}
+
+.linkedin-btn svg {
+  width: 17px;
+  height: 17px;
+  fill: currentColor;
+}
+/* ───────────────────────────────────────────────────────────────────────── */
 
 footer { position: relative; z-index: 1; border-top: 1px solid var(--border); background: rgba(250,249,246,0.6); backdrop-filter: blur(10px); padding: 32px 40px; text-align: center; font-size: 13px; color: var(--text4); }
 footer strong { color: var(--text2); font-weight: 500; }
@@ -411,8 +487,11 @@ footer strong { color: var(--text2); font-weight: 500; }
   .btn-analyze { padding: 14px 20px; font-size: 14px; }
   
   .features { grid-template-columns: 1fr; padding: 0 16px 80px; gap: 16px; }
-  .about { padding: 40px 16px 80px; }
-  .about-card { padding: 24px 20px; }
+  .about { padding: 50px 16px 80px; }
+  .about h3 { font-size: 24px; }
+  .about-card { padding: 28px 24px; }
+  .about p { font-size: 14px; }
+  .linkedin-btn { padding: 11px 18px; font-size: 13px; }
   .score-card { margin: 16px; padding: 16px; flex-direction: column; text-align: center; }
   .score-circle { width: 80px; height: 80px; }
 }
