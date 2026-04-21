@@ -94,8 +94,8 @@ body::before {
 
 nav { position: sticky; top: 0; z-index: 100; background: rgba(255, 255, 255, 0.65); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); padding: 0 40px; height: 72px; display: flex; align-items: center; justify-content: space-between; }
 .logo { font-family: var(--font-head); font-weight: 700; font-size: 22px; color: var(--navy); letter-spacing: -0.02em; display: flex; align-items: center; gap: 10px; }
-.logo-mark { width: 32px; height: 32px; background: var(--emerald); border-radius: 10px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2); }
-.logo-mark svg { width: 18px; height: 18px; stroke: white; fill: none; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round; }
+.logo-mark { width: 36px; height: 36px; background: none; border-radius: 0; display: flex; align-items: center; justify-content: center; box-shadow: none; }
+.logo-mark img { width: 32px; height: 32px; object-fit: contain; }
 .nav-pill { font-size: 12px; font-weight: 600; color: var(--emerald-mid); background: var(--emerald-bg); border: 1px solid rgba(16, 185, 129, 0.2); padding: 6px 16px; border-radius: 99px; text-transform: uppercase; letter-spacing: 0.05em; }
 
 .hero { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; padding: 120px 24px 80px; text-align: center; animation: hero-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) both; }
@@ -508,16 +508,7 @@ footer strong { color: var(--text2); font-weight: 500; }
 <div class="orbs"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="orb orb-3"></div></div>
 
 <nav>
-  <div class="logo"><div class="logo-mark"><svg viewBox="0 0 24 24">
-    <defs>
-      <linearGradient id="g" x1="0" y1="0" x2="24" y2="24">
-        <stop offset="0" stop-color="#10b981"/>
-        <stop offset="1" stop-color="#34d399"/>
-      </linearGradient>
-    </defs>
-    <path fill="url(#g)" d="M12 2L4 7v10l8 5 8-5V7z"/>
-    <path fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" d="M12 22V12M4 7l8 5 8-5"/>
-  </svg></div>LexEasy</div>
+  <div class="logo"><div class="logo-mark"><img src="/favicon.svg" alt="LexEasy Logo" /></div>LexEasy</div>
   <div style="display:flex;align-items:center;gap:10px;">
     <span class="nav-pill">Free Beta</span>
     <div class="lang-switcher">
