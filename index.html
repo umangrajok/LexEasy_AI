@@ -760,7 +760,8 @@ function removeFile() {
 }
 
 // ── CONFIG ─────────────────────────────────────────────────────
-const BACKEND_URL = 'https://lexeasy-ai.vercel.app';
+// Use local serverless proxy to avoid browser CORS issues
+const BACKEND_URL = '/api/proxy-analyze';
 
 // Warm up the backend (Vercel cold start)
 async function pingBackend() {
@@ -880,7 +881,7 @@ async function analyze() {
   }, 10000);
 
   try {
-    const res = await fetchWithRetry(BACKEND_URL + '/api/analyze', {
+    const res = await fetchWithRetry(BACKEND_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text: originalText, responseLang: currentRespLang, recaptchaToken })
