@@ -1,19 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>LexEasy — AI Legal Assistant | Understand Documents in 30 Seconds</title>
-<meta name="description" content="LexEasy simplifies complex legal jargon using AI. Upload any document and get a clear explanation instantly.">
+  <title>AI Legal Document Analyzer | LexEasy - Contracts in 30 Seconds</title>
+  <meta name="description" content="LexEasy is an AI-powered legal assistant and document analyzer. Upload contracts, agreements, or legal documents for instant AI analysis, clear explanations, and risk assessment in 30 seconds.">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/favicon.svg">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="application-name" content="LexEasy">
+  <meta name="apple-mobile-web-app-title" content="LexEasy">
+  <meta name="theme-color" content="#10b981">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "LexEasy",
+  "description": "AI-powered legal document assistant that analyzes contracts and legal jargon instantly, providing clear explanations and risk assessments in 30 seconds.",
+  "url": "https://www.lexeasy.in",
+  "applicationCategory": "BusinessApplication",
+  "operatingSystem": "Web",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "creator": {
+    "@type": "Organization",
+    "name": "LexEasy"
+  },
+  "keywords": "legal assistant, document analyzer, AI, contract analysis, legal documents"
+}
+</script>
 
-<link rel="icon" href="/favicon.ico" type="image/x-icon">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>LexEasy — Legal Documents, Understood.</title>
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2024%2024'%3E%3Cdefs%3E%3ClinearGradient%20id='g'%20x1='0'%20y1='0'%20x2='24'%20y2='24'%3E%3Cstop%20offset='0'%20stop-color='%2310b981'/%3E%3Cstop%20offset='1'%20stop-color='%2334d399'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath%20fill='url(%23g)'%20d='M12%202L4%207v10l8%205%208-5V7z'/%3E%3Cpath%20fill='none'%20stroke='%23ffffff'%20stroke-width='2.2'%20stroke-linecap='round'%20stroke-linejoin='round'%20d='M12%2022V12M4%207l8%205%208-5'/%3E%3C/svg%3E">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="https://unpkg.com/tesseract.js@5/dist/tesseract.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<script src="https://www.google.com/recaptcha/api.js?render=6LdbLb8sAAAAACSFZfLuC6WxgHVr6paiHmEH6ttT"></script>
 <style>
 :root {
   --bg: #F0EFE9;
@@ -105,6 +131,10 @@ h1 .cursor.hidden {
 .trust-row { display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; }
 .trust-pill { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 400; color: var(--text3); background: var(--surface-solid); border: 1px solid var(--border); padding: 7px 14px; border-radius: 20px; box-shadow: var(--shadow-sm); }
 .trust-pill svg { width: 13px; height: 13px; stroke: var(--emerald); fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
+
+.pricing { text-align: center; margin: 40px 0; padding: 0 24px; }
+.pricing h3 { font-family: var(--font-head); font-size: 28px; font-weight: 600; color: var(--navy); margin-bottom: 20px; }
+.pricing p { font-size: 16px; color: var(--text3); margin: 8px 0; line-height: 1.5; }
 
 .main { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; padding: 0 24px 120px; animation: hero-in 0.8s 0.1s cubic-bezier(0.16, 1, 0.3, 1) both; }
 .glass-card { background: #ffffff; border: 1px solid var(--border); border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); overflow: hidden; transition: box-shadow 0.3s ease; }
@@ -422,6 +452,13 @@ footer strong { color: var(--text2); font-weight: 500; }
   </div>
 </div>
 
+<section class="pricing">
+<h3>Pricing</h3>
+   <p>Currently: Free Beta</p>
+   <p>Paid plan launching: June 2026</p>
+   <p>₹99/month for unlimited analysis</p>
+</section>
+
 <div class="main">
   <div class="glass-card">
     <div class="upload-wrap">
@@ -606,9 +643,9 @@ function removeFile() {
 }
 
 // ── CONFIG ─────────────────────────────────────────────────────
-const BACKEND_URL = 'https://lexai-backend-heim.onrender.com';
+const BACKEND_URL = 'https://lexeasy-ai.vercel.app';
 
-// Warm up the backend (Render free tier cold start)
+// Warm up the backend (Vercel cold start)
 async function pingBackend() {
   try {
     // Just hit the root to wake it up, as /api/ping may not exist
@@ -681,6 +718,15 @@ async function readFile(file) {
 async function analyze() {
   if (checkBot()) return;
   
+  // Get reCAPTCHA token
+  let recaptchaToken = '';
+  try {
+    recaptchaToken = await grecaptcha.execute('6LdbLb8sAAAAACSFZfLuC6WxgHVr6paiHmEH6ttT', {action: 'analyze'});
+  } catch (e) {
+    showError('reCAPTCHA verification failed. Please try again.');
+    return;
+  }
+  
   originalText = UI.pasteText.value.trim();
   
   if (selectedFile && !originalText) {
@@ -713,14 +759,14 @@ async function analyze() {
 
   // Show a "Waking up server" message if it takes too long
   const warmupTimeout = setTimeout(() => {
-    showError("Render server is waking up (cold start)... please wait a moment.");
+    showError("Vercel server is waking up (cold start)... please wait a moment.");
   }, 10000);
 
   try {
     const res = await fetchWithRetry(BACKEND_URL + '/api/analyze', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text: originalText, responseLang: currentRespLang })
+      body: JSON.stringify({ text: originalText, responseLang: currentRespLang, recaptchaToken })
     });
     
     clearTimeout(warmupTimeout); // Request finished, clear the timeout
