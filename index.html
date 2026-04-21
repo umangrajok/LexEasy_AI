@@ -682,6 +682,19 @@ footer strong { color: var(--text2); font-weight: 500; }
 </footer>
 
 <script>
+// Ensure `selectedFile` exists early to avoid TDZ errors from other scripts
+window.selectedFile = window.selectedFile || null;
+
+// Ensure PDF.js is loaded (fallback loader if CDN blocked or not yet loaded)
+(function ensurePDFjs(){
+  if (typeof window.pdfjsLib === 'undefined'){
+    var s = document.createElement('script');
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.js';
+    s.async = false; // load synchronously so global is available
+    document.head.appendChild(s);
+  }
+})();
+
 const UI = {
   zone: document.getElementById('uploadZone'),
   fileInput: document.getElementById('fileInput'),
@@ -706,10 +719,23 @@ const UI = {
   documentViewer: document.getElementById('documentViewer')
 };
 
-// PDF Worker Setup
-pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.worker.min.js';
+// PDF Worker Setup (wait until pdfjsLib is available)
+(function setPdfWorker(){
+  var workerUrl = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.worker.min.js';
+  if (window.pdfjsLib && window.pdfjsLib.GlobalWorkerOptions) {
+    window.pdfjsLib.GlobalWorkerOptions.workerSrc = workerUrl;
+    return;
+  }
+  var t = setInterval(function(){
+    if (window.pdfjsLib && window.pdfjsLib.GlobalWorkerOptions) {
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = workerUrl;
+      clearInterval(t);
+    }
+  }, 50);
+})();
 
-let selectedFile = null;
+// use global selectedFile to avoid temporal-dead-zone issues
+window.selectedFile = window.selectedFile || null;
 let stepTimer = null;
 let originalText = '';
 
