@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>LexEasy Pricing</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f1f5f3;
+      --surface: rgba(255,255,255,0.82);
+      --surface-strong: #ffffff;
+      --border: rgba(12, 32, 22, 0.08);
+      --navy: #0a0f1e;
+      --text: #143121;
+      --text-soft: #5a6b62;
+      --emerald: #10b981;
+      --emerald-deep: #047857;
+      --emerald-soft: rgba(16, 185, 129, 0.1);
+      --shadow: 0 24px 60px rgba(8, 28, 19, 0.08);
+      --radius-xl: 26px;
+      --radius-lg: 20px;
+      --radius-md: 16px;
+      --font-head: 'Outfit', sans-serif;
+      --font-body: 'DM Sans', sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: var(--font-body);
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(110, 231, 183, 0.22), transparent 34%),
+        linear-gradient(180deg, #f7fbf8 0%, var(--bg) 100%);
+    }
+
+    .page {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 40px 20px 56px;
+    }
+
+    .hero {
+      text-align: center;
+      padding: 16px 0 28px;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 16px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.72);
+      border: 1px solid rgba(16, 185, 129, 0.14);
+      color: var(--emerald-deep);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--emerald);
+      box-shadow: 0 0 0 8px rgba(16, 185, 129, 0.1);
+    }
+
+    h1 {
+      margin: 22px auto 14px;
+      max-width: 780px;
+      font-family: var(--font-head);
+      font-size: clamp(34px, 6vw, 58px);
+      line-height: 1.04;
+      letter-spacing: -0.04em;
+      color: var(--navy);
+    }
+
+    .subhead {
+      max-width: 760px;
+      margin: 0 auto;
+      color: var(--text-soft);
+      font-size: 18px;
+      line-height: 1.7;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px;
+      margin-top: 34px;
+    }
+
+    .card {
+      position: relative;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 26px 24px 24px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+    }
+
+    .card.popular {
+      background: linear-gradient(180deg, rgba(255,255,255,0.94) 0%, rgba(239, 253, 246, 0.98) 100%);
+      border: 1px solid rgba(16, 185, 129, 0.24);
+      transform: translateY(-6px);
+      box-shadow: 0 28px 70px rgba(16, 185, 129, 0.14);
+    }
+
+    .popular-badge {
+      position: absolute;
+      top: -12px;
+      left: 24px;
+      padding: 7px 12px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--emerald) 0%, var(--emerald-deep) 100%);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      box-shadow: 0 10px 22px rgba(16, 185, 129, 0.24);
+    }
+
+    .tier {
+      font-family: var(--font-head);
+      font-size: 26px;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: -0.03em;
+    }
+
+    .for {
+      margin-top: 8px;
+      color: var(--text-soft);
+      font-size: 14px;
+      line-height: 1.7;
+      min-height: 48px;
+    }
+
+    .price-row {
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+      margin: 24px 0 8px;
+    }
+
+    .price {
+      font-family: var(--font-head);
+      font-size: 42px;
+      font-weight: 800;
+      letter-spacing: -0.05em;
+      color: var(--navy);
+      line-height: 1;
+    }
+
+    .period {
+      padding-bottom: 6px;
+      color: var(--text-soft);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .annual {
+      margin-bottom: 18px;
+      padding: 12px 14px;
+      border-radius: 14px;
+      background: rgba(16, 185, 129, 0.06);
+      color: var(--emerald-deep);
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .metric {
+      margin-bottom: 18px;
+      padding: 13px 14px;
+      border-radius: 16px;
+      background: rgba(10,15,30,0.04);
+      color: var(--navy);
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    ul {
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 12px;
+    }
+
+    li {
+      display: flex;
+      gap: 10px;
+      color: var(--text);
+      font-size: 14px;
+      line-height: 1.65;
+    }
+
+    li::before {
+      content: "";
+      width: 9px;
+      height: 9px;
+      margin-top: 8px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--emerald) 0%, var(--emerald-deep) 100%);
+      flex-shrink: 0;
+    }
+
+    .cta {
+      display: inline-flex;
+      width: 100%;
+      justify-content: center;
+      align-items: center;
+      margin-top: 22px;
+      padding: 14px 18px;
+      border-radius: 16px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 15px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .cta.primary {
+      background: linear-gradient(135deg, var(--emerald) 0%, var(--emerald-deep) 100%);
+      color: #fff;
+      box-shadow: 0 16px 28px rgba(16, 185, 129, 0.22);
+    }
+
+    .cta.secondary {
+      background: rgba(10,15,30,0.04);
+      color: var(--navy);
+      border: 1px solid rgba(10,15,30,0.08);
+    }
+
+    .cta:hover {
+      transform: translateY(-2px);
+    }
+
+    .trust {
+      margin-top: 34px;
+      padding: 24px;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.72);
+      border: 1px solid rgba(10,15,30,0.06);
+      box-shadow: var(--shadow);
+    }
+
+    .trust h2 {
+      margin: 0 0 10px;
+      font-family: var(--font-head);
+      font-size: 24px;
+      color: var(--navy);
+      letter-spacing: -0.03em;
+    }
+
+    .trust p {
+      margin: 0;
+      color: var(--text-soft);
+      line-height: 1.8;
+      font-size: 15px;
+    }
+
+    .signals {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .signal {
+      padding: 16px;
+      border-radius: 18px;
+      background: rgba(16, 185, 129, 0.06);
+      border: 1px solid rgba(16, 185, 129, 0.1);
+      color: var(--emerald-deep);
+      font-size: 14px;
+      font-weight: 700;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 980px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .card.popular {
+        transform: none;
+      }
+
+      .signals {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="eyebrow"><span class="dot"></span>LexEasy Pricing</div>
+      <h1>Pick the plan that helps you review documents before they become expensive mistakes.</h1>
+      <p class="subhead">From one-off agreements to regular contract reviews, LexEasy gives you fast legal clarity in simple language, without paying a lawyer for every first check.</p>
+    </section>
+
+    <section class="grid" aria-label="Pricing plans">
+      <article class="card">
+        <div class="tier">Basic</div>
+        <p class="for">For individuals, job seekers, and occasional users who want clarity on a few important documents each month.</p>
+        <div class="price-row">
+          <div class="price">₹149</div>
+          <div class="period">/ month</div>
+        </div>
+        <div class="annual">₹499 / year</div>
+        <div class="metric">Includes 2 credits. Extra Deep Analysis at ₹19 per document.</div>
+        <ul>
+          <li>2 document analysis credits included</li>
+          <li>Simple legal summary in plain language</li>
+          <li>Key red flags and practical next steps</li>
+          <li>PDF export for every report</li>
+          <li>Lightweight usage for personal needs</li>
+        </ul>
+        <a class="cta secondary" href="/">Start with Basic</a>
+      </article>
+
+      <article class="card popular">
+        <div class="popular-badge">Most Popular</div>
+        <div class="tier">Plus</div>
+        <p class="for">For freelancers, consultants, and business owners who review contracts regularly and want better value per document.</p>
+        <div class="price-row">
+          <div class="price">₹499</div>
+          <div class="period">/ month</div>
+        </div>
+        <div class="annual">₹4,999 / year</div>
+        <div class="metric">30 credits every month for recurring legal document review.</div>
+        <ul>
+          <li>30 document analysis credits per month</li>
+          <li>Deep Analysis included within plan credits</li>
+          <li>Stronger red-flag detection and clearer explanation</li>
+          <li>Saved report history for repeat reference</li>
+          <li>Best balance of value, volume, and affordability</li>
+        </ul>
+        <a class="cta primary" href="/">Choose Plus</a>
+      </article>
+
+      <article class="card">
+        <div class="tier">Pro+</div>
+        <p class="for">For startups, fast-moving teams, and businesses that need frequent legal review without slowing down operations.</p>
+        <div class="price-row">
+          <div class="price">₹1,499</div>
+          <div class="period">/ month</div>
+        </div>
+        <div class="annual">₹14,999 / year</div>
+        <div class="metric">100 credits monthly for higher-volume, deeper legal review workflows.</div>
+        <ul>
+          <li>100 analysis credits per month</li>
+          <li>Advanced deep analysis for complex documents</li>
+          <li>Priority processing and faster turnaround</li>
+          <li>Premium insights for recurring contract work</li>
+          <li>Built for teams handling legal volume at scale</li>
+        </ul>
+        <a class="cta secondary" href="/">Go Pro+</a>
+      </article>
+    </section>
+
+    <section class="trust">
+      <h2>Why this pricing works for LexEasy users</h2>
+      <p>Basic keeps the door open for occasional users. Plus is the sweet spot for real recurring value. Pro+ is for serious volume. That means users can start small, upgrade naturally, and always feel like they are paying for better outcomes, not just more features.</p>
+      <div class="signals">
+        <div class="signal">Built for Indian users reviewing offer letters, rental agreements, service contracts, and business documents.</div>
+        <div class="signal">Designed to reduce confusion, save review time, and catch risky clauses before you sign.</div>
+        <div class="signal">Clear plans, transparent limits, and no confusing enterprise-style pricing jargon.</div>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

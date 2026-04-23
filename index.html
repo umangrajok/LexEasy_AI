@@ -34,7 +34,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script src="https://unpkg.com/tesseract.js@5.1.0/dist/tesseract.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.2/html2pdf.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
@@ -97,6 +97,9 @@ nav { position: sticky; top: 0; z-index: 100; background: rgba(255, 255, 255, 0.
 .logo-mark { width: 36px; height: 36px; background: none; border-radius: 0; display: flex; align-items: center; justify-content: center; box-shadow: none; }
 .logo-mark img { width: 32px; height: 32px; object-fit: contain; }
 .nav-pill { font-size: 12px; font-weight: 600; color: var(--emerald-mid); background: var(--emerald-bg); border: 1px solid rgba(16, 185, 129, 0.2); padding: 6px 16px; border-radius: 99px; text-transform: uppercase; letter-spacing: 0.05em; }
+.nav-actions { display:flex; align-items:center; gap:10px; }
+.nav-pricing { display:inline-flex; align-items:center; justify-content:center; padding:10px 16px; border-radius:999px; text-decoration:none; font-size:13px; font-weight:700; letter-spacing:0.01em; color:var(--emerald-mid); background:rgba(255,255,255,0.78); border:1px solid rgba(16,185,129,0.16); box-shadow:var(--shadow-sm); transition:all 0.2s ease; }
+.nav-pricing:hover { transform:translateY(-1px); color:#ffffff; background:linear-gradient(135deg, var(--emerald) 0%, var(--emerald-mid) 100%); border-color:transparent; box-shadow:0 12px 24px rgba(16,185,129,0.18); }
 
 .hero { position: relative; z-index: 1; max-width: 800px; margin: 0 auto; padding: 120px 24px 80px; text-align: center; animation: hero-in 0.8s cubic-bezier(0.16, 1, 0.3, 1) both; }
 @keyframes hero-in { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
@@ -130,10 +133,6 @@ h1 .cursor.hidden {
 .trust-row { display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; }
 .trust-pill { display: flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 400; color: var(--text3); background: var(--surface-solid); border: 1px solid var(--border); padding: 7px 14px; border-radius: 20px; box-shadow: var(--shadow-sm); }
 .trust-pill svg { width: 13px; height: 13px; stroke: var(--emerald); fill: none; stroke-width: 2.2; stroke-linecap: round; stroke-linejoin: round; }
-
-.pricing { text-align: center; margin: 40px 0; padding: 0 24px; }
-.pricing h3 { font-family: var(--font-head); font-size: 28px; font-weight: 600; color: var(--navy); margin-bottom: 20px; }
-.pricing p { font-size: 16px; color: var(--text3); margin: 8px 0; line-height: 1.5; }
 
 .main { position: relative; z-index: 1; max-width: 720px; margin: 0 auto; padding: 0 24px 120px; animation: hero-in 0.8s 0.1s cubic-bezier(0.16, 1, 0.3, 1) both; }
 .glass-card { background: #ffffff; border: 1px solid var(--border); border-radius: var(--radius-xl); box-shadow: var(--shadow-lg); overflow: hidden; transition: box-shadow 0.3s ease; }
@@ -281,7 +280,7 @@ textarea::placeholder { color: var(--text4); }
 .res-text { font-size: 14px; line-height: 1.8; color: var(--text2); }
 
 .flags-list { display: flex; flex-direction: column; gap: 9px; }
-.flag-card { display: flex; gap: 13px; padding: 14px 16px; border-radius: var(--radius-md); border: 1px solid; cursor: default; transition: all 0.25s cubic-bezier(0.22,1,0.36,1); }
+.flag-card { display: flex; gap: 13px; width: 100%; padding: 14px 16px; border-radius: var(--radius-md); border: 1px solid; background: transparent; text-align: left; cursor: pointer; transition: all 0.25s cubic-bezier(0.22,1,0.36,1); }
 .flag-card:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); }
 .flag-card.high { background: var(--danger-bg); border-color: rgba(192,57,43,0.15); }
 .flag-card.medium { background: var(--warn-bg); border-color: rgba(180,83,9,0.15); }
@@ -311,7 +310,7 @@ textarea::placeholder { color: var(--text4); }
 .feat-card h4 { font-family: var(--font-head); font-size: 14px; font-weight: 600; color: var(--navy); margin-bottom: 6px; letter-spacing: -0.2px; }
 .feat-card p { font-size: 13px; color: var(--text3); line-height: 1.65; }
 
-/* ── ABOUT SECTION with GLASSMORPHISM ─────────────────────────────────── */
+/* â”€â”€ ABOUT SECTION with GLASSMORPHISM â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .about {
   position: relative;
   z-index: 1;
@@ -392,7 +391,7 @@ textarea::placeholder { color: var(--text4); }
   height: 17px;
   fill: currentColor;
 }
-/* ───────────────────────────────────────────────────────────────────────── */
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 footer { position: relative; z-index: 1; border-top: 1px solid var(--border); background: rgba(250,249,246,0.6); backdrop-filter: blur(10px); padding: 32px 40px; text-align: center; font-size: 13px; color: var(--text4); }
 footer strong { color: var(--text2); font-weight: 500; }
@@ -433,6 +432,13 @@ footer strong { color: var(--text2); font-weight: 500; }
 .modal-backdrop.show { display:block; }
 .privacy-modal { display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%) scale(0.96); z-index:10000; width:min(560px,92vw); background:var(--surface-solid); border:1px solid var(--border); border-radius:var(--radius-xl); box-shadow:var(--shadow-lg); overflow:hidden; transition:all 0.25s cubic-bezier(0.22,1,0.36,1); }
 .privacy-modal.show { display:block; transform:translate(-50%,-50%) scale(1); }
+.pricing-modal { display:none; position:fixed; inset:50% auto auto 50%; transform:translate(-50%,-50%) scale(0.96); z-index:10001; width:min(1120px,96vw); height:min(86vh,860px); background:rgba(255,255,255,0.92); border:1px solid rgba(10,15,30,0.08); border-radius:28px; box-shadow:0 36px 80px rgba(10,15,30,0.18); overflow:hidden; transition:all 0.25s cubic-bezier(0.22,1,0.36,1); }
+.pricing-modal.show { display:block; transform:translate(-50%,-50%) scale(1); }
+.pricing-modal-backdrop { background:rgba(10,15,30,0.56); }
+.pricing-shell { display:grid; grid-template-rows:auto 1fr; height:100%; background:linear-gradient(180deg, rgba(248,252,249,0.95) 0%, rgba(240,247,243,0.98) 100%); }
+.pricing-shell .modal-header { padding:18px 22px 16px; background:rgba(255,255,255,0.72); backdrop-filter:blur(12px); -webkit-backdrop-filter:blur(12px); }
+.pricing-shell .modal-title-row p { margin:2px 0 0; font-size:13px; color:var(--text3); }
+.pricing-frame { width:100%; height:100%; border:0; background:transparent; }
 .modal-header { padding:20px 24px 16px; border-bottom:1px solid var(--border); display:flex; align-items:center; justify-content:space-between; }
 .modal-title-row { display:flex; align-items:center; gap:10px; }
 .modal-icon { width:32px; height:32px; background:var(--emerald-bg); border:1px solid rgba(26,122,94,0.15); border-radius:10px; display:flex; align-items:center; justify-content:center; }
@@ -466,24 +472,15 @@ footer strong { color: var(--text2); font-weight: 500; }
   font-size: 12px;
 }
 
-/* ── MOBILE RESPONSIVE ─────────────────────────────────────────────────── */
+/* â”€â”€ MOBILE RESPONSIVE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 @media (max-width: 640px) {
   nav { padding: 0 20px; height: 64px; }
   .logo { font-size: 19px; }
   .nav-pill { display: none; }
+  .nav-actions { gap: 8px; }
+  .nav-pricing { padding: 8px 13px; font-size: 12px; }
   
   .hero { padding: 80px 20px 48px; }
-  h1 { font-size: 40px; margin-bottom: 16px; }
-  .hero-sub { font-size: 16px; margin-bottom: 40px; }
-  .hero-eyebrow { font-size: 12px; padding: 6px 16px; }
-  
-  .main { padding: 0 16px 80px; }
-  .glass-card { border-radius: var(--radius-lg); }
-  .upload-wrap { padding: 24px 16px; }
-  .upload-zone { padding: 40px 20px; }
-  
-  textarea { font-size: 16px; padding: 12px 14px; }
-  .btn-analyze { padding: 14px 20px; font-size: 14px; }
   
   .features { grid-template-columns: 1fr; padding: 0 16px 80px; gap: 16px; }
   .about { padding: 50px 16px 80px; }
@@ -500,7 +497,42 @@ footer strong { color: var(--text2); font-weight: 500; }
   .trust-row { gap: 8px; }
   .trust-pill { font-size: 11px; padding: 5px 10px; }
 }
-/* ─────────────────────────────────────────────────────────────────────── */
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
+
+/* -- AUTH MODAL ------------------------------------------------------------ */
+#authBackdrop { display:none; position:fixed; inset:0; background:rgba(10,15,30,0.52); backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); z-index:10002; }
+#authBackdrop.show { display:block; }
+.auth-modal { display:none; position:fixed; top:50%; left:50%; transform:translate(-50%,-50%) scale(0.96); z-index:10003; width:min(440px,94vw); background:rgba(255,255,255,0.97); border:1px solid rgba(0,0,0,0.09); border-radius:24px; box-shadow:0 40px 90px rgba(10,15,30,0.22),0 8px 28px rgba(16,185,129,0.12); overflow:hidden; }
+.auth-modal.show { display:block; animation:auth-in 0.26s cubic-bezier(0.34,1.56,0.64,1) forwards; }
+@keyframes auth-in { from{opacity:0;transform:translate(-50%,-44%) scale(0.93)} to{opacity:1;transform:translate(-50%,-50%) scale(1)} }
+.auth-modal-inner { padding:28px 26px 24px; position:relative; }
+.auth-modal-close { position:absolute; top:12px; right:12px; background:rgba(15,23,42,0.06); border:none; border-radius:8px; width:30px; height:30px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:#64748b; transition:all 0.2s; }
+.auth-modal-close:hover { background:rgba(15,23,42,0.11); color:#0A0F1E; }
+.auth-modal-head { text-align:center; margin-bottom:20px; }
+.auth-modal-logo { font-family:'Outfit',-apple-system,sans-serif; font-weight:700; font-size:22px; letter-spacing:-0.02em; color:#0A0F1E; }
+.auth-modal-sub { font-size:13px; color:#64748b; margin-top:4px; }
+.auth-tabs { display:flex; background:rgba(15,23,42,0.06); border-radius:13px; padding:3px; gap:3px; margin-bottom:22px; }
+.auth-tab { flex:1; border:none; border-radius:10px; padding:9px 0; font-size:13px; font-weight:600; cursor:pointer; transition:all 0.18s; background:transparent; color:#64748b; font-family:'DM Sans',-apple-system,sans-serif; }
+.auth-tab.active { background:#fff; color:#0A0F1E; box-shadow:0 2px 6px rgba(15,23,42,0.1); }
+.auth-google-btn { width:100%; display:flex; align-items:center; justify-content:center; gap:10px; padding:12px 16px; border-radius:12px; border:1.5px solid rgba(0,0,0,0.1); background:#fff; font-family:'DM Sans',-apple-system,sans-serif; font-size:14px; font-weight:600; color:#0A0F1E; cursor:pointer; transition:all 0.2s; box-shadow:0 1px 4px rgba(0,0,0,0.06); }
+.auth-google-btn:hover { box-shadow:0 4px 16px rgba(0,0,0,0.1); transform:translateY(-1px); }
+.auth-google-btn:disabled { opacity:0.55; cursor:not-allowed; transform:none; }
+.auth-divider { display:flex; align-items:center; gap:12px; font-size:12px; color:#94a3b8; margin:16px 0; }
+.auth-divider::before,.auth-divider::after { content:''; flex:1; height:1px; background:rgba(0,0,0,0.08); }
+.auth-field { margin-bottom:13px; }
+.auth-label { display:block; font-size:11.5px; font-weight:700; color:#64748b; margin-bottom:6px; text-transform:uppercase; letter-spacing:0.06em; }
+.auth-input { width:100%; border-radius:12px; border:1.5px solid rgba(0,0,0,0.1); padding:12px 15px; font-family:'DM Sans',-apple-system,sans-serif; font-size:14px; color:#0A0F1E; background:rgba(250,249,246,0.6); outline:none; transition:border-color 0.2s,box-shadow 0.2s; }
+.auth-input:focus { border-color:#059669; box-shadow:0 0 0 3px rgba(16,185,129,0.2); background:#fff; }
+.auth-submit { width:100%; background:linear-gradient(135deg,#10b981 0%,#059669 100%); color:#fff; border:none; border-radius:12px; padding:14px 20px; font-family:'Outfit',-apple-system,sans-serif; font-size:15px; font-weight:600; cursor:pointer; margin-top:4px; transition:all 0.22s cubic-bezier(0.22,1,0.36,1); box-shadow:0 4px 18px rgba(26,122,94,0.28); }
+.auth-submit:hover:not(:disabled) { transform:translateY(-2px); box-shadow:0 8px 28px rgba(26,122,94,0.36); }
+.auth-submit:disabled { opacity:0.55; cursor:not-allowed; transform:none; box-shadow:none; }
+.auth-magic-btn { width:100%; background:transparent; border:1.5px solid rgba(16,185,129,0.28); border-radius:12px; padding:11px 16px; font-family:'DM Sans',-apple-system,sans-serif; font-size:13px; font-weight:600; color:#059669; cursor:pointer; transition:all 0.2s; margin-top:10px; }
+.auth-magic-btn:hover { background:rgba(16,185,129,0.08); }
+.auth-error { border-radius:10px; border:1px solid rgba(192,57,43,0.22); background:rgba(239,68,68,0.07); color:#ef4444; padding:11px 13px; font-size:13px; line-height:1.55; display:none; margin-top:10px; }
+.auth-error.show { display:block; }
+.auth-success-box { border-radius:14px; border:1px solid rgba(16,185,129,0.22); background:rgba(16,185,129,0.08); color:#059669; padding:20px 18px; font-size:14px; line-height:1.65; text-align:center; }
+.nav-signin { display:inline-flex; align-items:center; justify-content:center; padding:9px 18px; border-radius:999px; font-size:13px; font-weight:700; color:#059669; background:rgba(255,255,255,0.78); border:1px solid rgba(16,185,129,0.2); box-shadow:0 1px 3px rgba(0,0,0,0.1); transition:all 0.2s; cursor:pointer; font-family:'DM Sans',-apple-system,sans-serif; white-space:nowrap; }
+.nav-signin:hover { transform:translateY(-1px); color:#fff; background:linear-gradient(135deg,#10b981 0%,#059669 100%); border-color:transparent; box-shadow:0 12px 24px rgba(16,185,129,0.22); }
 </style>
 </head>
 <body>
@@ -509,33 +541,26 @@ footer strong { color: var(--text2); font-weight: 500; }
 
 <nav>
   <div class="logo"><div class="logo-mark"><img src="/favicon.svg" alt="LexEasy Logo" /></div>LexEasy</div>
-  <div style="display:flex;align-items:center;gap:10px;">
-    <span class="nav-pill">Free Beta</span>
+  <div class="nav-actions">
+    <a class="nav-pricing" href="/pricing.html">Pricing</a>
     <div class="lang-switcher">
       <button class="lang-btn active" onclick="setLang('en')">EN</button>
       <button class="lang-btn" onclick="setLang('hi')">HI</button>
       <button class="lang-btn" onclick="setLang('hinglish')">HG</button>
     </div>
+    <button class="nav-signin" id="navSigninBtn" onclick="openAuth()">Sign in</button>
   </div>
 </nav>
 
 <div class="hero">
   <div class="hero-eyebrow"><span class="eyebrow-dot"></span><span data-i18n="eyebrow">AI Legal Assistant - Understanding documents made simple</span></div>
   <h1><span id="typewriter-line1">Legal Documents,</span><br><span id="typewriter-line2" class="accent">Understood.</span><span class="cursor hidden"></span></h1>
-  <p class="hero-sub"><span data-i18n="herosub">Upload any document. AI will tell you in 30 seconds — is it safe to sign or not. Simple, clear language.</span></p>
+  <p class="hero-sub"><span data-i18n="herosub">Upload any document. AI will tell you in 30 seconds â€” is it safe to sign or not. Simple, clear language.</span></p>
   <div class="trust-row">
     <div class="trust-pill"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>File never saved</div>
-    <div class="trust-pill"><svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>Completely free</div>
     <div class="trust-pill"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>30 second results</div>
   </div>
 </div>
-
-<section class="pricing">
-<h3>Pricing</h3>
-   <p>Currently: Free Beta</p>
-   <p>Paid plan launching: June 2026</p>
-   <p>₹99/month for unlimited analysis</p>
-</section>
 
 <div class="main">
   <div class="glass-card">
@@ -552,7 +577,7 @@ footer strong { color: var(--text2); font-weight: 500; }
       <div class="file-preview-card" id="filePreview">
         <div class="fp-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--emerald)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg></div>
         <div class="fp-info"><div class="fp-name" id="fileName"></div><div class="fp-size" id="fileSize"></div></div>
-        <button class="fp-remove" onclick="removeFile()">✕</button>
+        <button class="fp-remove" onclick="removeFile()">âœ•</button>
       </div>
 
       <div class="divider"><span data-i18n="orDivider">or paste text below</span></div>
@@ -577,7 +602,7 @@ footer strong { color: var(--text2); font-weight: 500; }
         <span class="resp-lang-label" data-i18n="respLangLabel">AI responds in:</span>
         <div class="resp-lang-options">
           <label class="resp-lang-opt selected" id="ropt-en" onclick="setRespLang('en')"><input type="radio" name="respLang" value="en" checked><div class="resp-radio-dot"><div class="resp-radio-inner"></div></div><span class="resp-lang-text">English</span></label>
-          <label class="resp-lang-opt" id="ropt-hi" onclick="setRespLang('hi')"><input type="radio" name="respLang" value="hi"><div class="resp-radio-dot"><div class="resp-radio-inner"></div></div><span class="resp-lang-text">हिंदी</span></label>
+          <label class="resp-lang-opt" id="ropt-hi" onclick="setRespLang('hi')"><input type="radio" name="respLang" value="hi"><div class="resp-radio-dot"><div class="resp-radio-inner"></div></div><span class="resp-lang-text">à¤¹à¤¿à¤‚à¤¦à¥€</span></label>
           <label class="resp-lang-opt" id="ropt-hinglish" onclick="setRespLang('hinglish')"><input type="radio" name="respLang" value="hinglish"><div class="resp-radio-dot"><div class="resp-radio-inner"></div></div><span class="resp-lang-text">Hinglish</span></label>
         </div>
       </div>
@@ -606,7 +631,7 @@ footer strong { color: var(--text2); font-weight: 500; }
             <h2 data-i18n="resultTitle">Analysis Report</h2>
             <div class="header-buttons" id="reportButtons" style="display:flex; gap:10px;">
               <button class="btn-new" onclick="downloadPDF()" style="color: var(--emerald); border-color: var(--emerald);"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg> <span data-i18n="downloadBtn">Download PDF</span></button>
-              <button class="btn-new" onclick="resetApp()"><span data-i18n="newDoc">← New Document</span></button>
+              <button class="btn-new" onclick="resetApp()"><span data-i18n="newDoc">â† New Document</span></button>
             </div>
           </div>
           <div class="score-card">
@@ -626,19 +651,58 @@ footer strong { color: var(--text2); font-weight: 500; }
             </div>
           </div>
           <div class="res-block"><div class="res-block-label"><span data-i18n="r1">What is this document</span></div><div class="res-text" id="summaryBox"></div></div>
-          <div class="res-block"><div class="res-block-label"><span data-i18n="r2">Red flags — pay attention</span></div><div class="flags-list" id="flagsBox"></div></div>
+          <div class="res-block"><div class="res-block-label"><span data-i18n="r2">Red flags â€” pay attention</span></div><div class="flags-list" id="flagsBox"></div></div>
           <div class="res-block"><div class="res-block-label"><span data-i18n="r3">Safe points</span></div><div class="res-text" id="safeBox"></div></div>
           <div class="res-block"><div class="res-block-label"><span data-i18n="r4">What should you do</span></div><div class="res-text" id="adviceBox"></div></div>
           <div class="satisfaction-survey" id="satisfactionSurvey">
             <p>Are you satisfied with this analysis?</p>
             <div class="survey-buttons">
-              <button class="survey-btn thumbs-up" onclick="handleSurvey(true)">👍</button>
-              <button class="survey-btn thumbs-down" onclick="handleSurvey(false)">👎</button>
+              <button class="survey-btn thumbs-up" onclick="handleSurvey(true)">ðŸ‘</button>
+              <button class="survey-btn thumbs-down" onclick="handleSurvey(false)">ðŸ‘Ž</button>
             </div>
             <p class="survey-thanks" id="surveyThanks">Thank you for your feedback!</p>
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── AUTH MODAL ────────────────────────────────────────────────────────── -->
+<div id="authBackdrop" onclick="closeAuth()"></div>
+<div class="auth-modal" id="authModal" role="dialog" aria-modal="true" aria-label="Sign in">
+  <div class="auth-modal-inner" style="position:relative">
+    <button class="auth-modal-close" onclick="closeAuth()" aria-label="Close">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+    <div class="auth-modal-head">
+      <div class="auth-modal-logo">LexEasy</div>
+      <div class="auth-modal-sub" id="authSubtitle">Sign in to your account</div>
+    </div>
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tabLogin" onclick="switchAuthTab('login')">Sign in</button>
+      <button class="auth-tab" id="tabSignup" onclick="switchAuthTab('signup')">Sign up</button>
+    </div>
+    <div id="authSuccessBox" style="display:none">
+      <div class="auth-success-box" id="authSuccessMsg"></div>
+    </div>
+    <div id="authFormWrap">
+      <button class="auth-google-btn" id="authGoogleBtn" onclick="authWithGoogle()">
+        <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844a4.14 4.14 0 0 1-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.875 2.684-6.615Z" fill="#4285F4"/><path d="M9 18c2.43 0 4.467-.806 5.956-2.18l-2.908-2.259c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332A8.997 8.997 0 0 0 9 18Z" fill="#34A853"/><path d="M3.964 10.71A5.41 5.41 0 0 1 3.682 9c0-.593.102-1.17.282-1.71V4.958H.957A8.996 8.996 0 0 0 0 9c0 1.452.348 2.827.957 4.042l3.007-2.332Z" fill="#FBBC05"/><path d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0A8.997 8.997 0 0 0 .957 4.958L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58Z" fill="#EA4335"/></svg>
+        Continue with Google
+      </button>
+      <div class="auth-divider"><span>or</span></div>
+      <div class="auth-field">
+        <label class="auth-label" for="authEmail">Email</label>
+        <input class="auth-input" id="authEmail" type="email" placeholder="you@example.com" autocomplete="email" />
+      </div>
+      <div class="auth-field">
+        <label class="auth-label" for="authPassword">Password</label>
+        <input class="auth-input" id="authPassword" type="password" placeholder="••••••••" autocomplete="current-password" />
+      </div>
+      <div class="auth-error" id="authError"></div>
+      <button class="auth-submit" id="authSubmitBtn" onclick="authSubmit()">Sign in →</button>
+      <button class="auth-magic-btn" id="authMagicBtn" onclick="authMagicLink()" style="display:none">✉️ Send magic link instead</button>
     </div>
   </div>
 </div>
@@ -654,12 +718,29 @@ footer strong { color: var(--text2); font-weight: 500; }
     <div class="policy-section"><div class="policy-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div><div><h4>No Data Sharing</h4><p>Your data is never sold or shared with any third party.</p></div></div>
     <div class="policy-section"><div class="policy-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--warn)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg></div><div><h4>Legal Disclaimer</h4><p>LexEasy is not professional legal advice. Always consult a lawyer.</p></div></div>
   </div>
-  <div class="modal-footer"><button class="modal-ok-btn" onclick="closePrivacy()">Understood — Close</button></div>
+  <div class="modal-footer"><button class="modal-ok-btn" onclick="closePrivacy()">Understood â€” Close</button></div>
+</div>
+
+<div class="modal-backdrop pricing-modal-backdrop" id="pricingBackdrop" onclick="closePricingPopup()"></div>
+<div class="pricing-modal" id="pricingModal" aria-hidden="true">
+  <div class="pricing-shell">
+    <div class="modal-header">
+      <div class="modal-title-row">
+        <div class="modal-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--emerald)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1v22"></path><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path></svg></div>
+        <div>
+          <h3>Choose your LexEasy plan</h3>
+          <p>Dedicated pricing page opened as a post-login popup.</p>
+        </div>
+      </div>
+      <button class="modal-close" onclick="closePricingPopup()" aria-label="Close pricing popup"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>
+    <iframe class="pricing-frame" src="/pricing.html" title="LexEasy pricing"></iframe>
+  </div>
 </div>
 
 <div class="features">
   <div class="feat-card"><div class="feat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--emerald)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div><h4 data-i18n="f1t">30 Second Analysis</h4><p data-i18n="f1d">A lawyer takes hours to read it. AI tells you in 30 seconds.</p></div>
-  <div class="feat-card"><div class="feat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div><h4 data-i18n="f2t">Clear Language</h4><p data-i18n="f2d">Plain language — no legal jargon, just straight answers</p></div>
+  <div class="feat-card"><div class="feat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--blue)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div><h4 data-i18n="f2t">Clear Language</h4><p data-i18n="f2d">Plain language â€” no legal jargon, just straight answers</p></div>
   <div class="feat-card"><div class="feat-icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--navy2)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div><h4 data-i18n="f3t">100% Private</h4><p data-i18n="f3d">Your document is never saved.</p></div>
 </div>
 
@@ -675,22 +756,324 @@ footer strong { color: var(--text2); font-weight: 500; }
     </a>
   </div>
 </section>
+ 
+<!-- Contact / Social (Glassmorphism) -->
+<section class="contact-social" aria-labelledby="contactHeading">
+  <style>
+    .contact-social { max-width: 760px; margin: 30px auto; padding: 0 24px; }
+    .contact-card {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 22px;
+      border-radius: 24px;
+      background: linear-gradient(135deg, rgba(9, 62, 40, 0.96), rgba(16, 111, 72, 0.9));
+      border: 1px solid rgba(214,255,231,0.22);
+      box-shadow: 0 24px 60px rgba(5, 32, 21, 0.3), 0 12px 28px rgba(16, 185, 129, 0.16);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      position: relative;
+      overflow: hidden;
+    }
+    .contact-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.12), rgba(255,255,255,0.02));
+      pointer-events: none;
+    }
+    .contact-card::after {
+      content: "";
+      position: absolute;
+      inset: auto -10% -55% 45%;
+      height: 180px;
+      background: radial-gradient(circle, rgba(167, 243, 208, 0.26), transparent 68%);
+      pointer-events: none;
+    }
+    .contact-meta,
+    .contact-actions {
+      position: relative;
+      z-index: 1;
+    }
+    .contact-meta { display:flex; gap:12px; align-items:center; }
+    .contact-meta .label {
+      font-family: var(--font-head);
+      font-size: 18px;
+      color: #ffffff;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+    .contact-meta .sub {
+      font-size: 14px;
+      color: rgba(245,255,249,0.9);
+      line-height: 1.6;
+      max-width: 320px;
+    }
+
+    .contact-actions { display:flex; gap:14px; align-items:center; flex-wrap: wrap; justify-content: flex-end; }
+    .social-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      min-width: 220px;
+      padding: 14px 18px;
+      border-radius: 18px;
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 14px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.14), rgba(209, 250, 229, 0.08));
+      border: 1px solid rgba(214,255,231,0.22);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.1), 0 10px 24px rgba(2, 12, 8, 0.18);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      transition: transform 220ms cubic-bezier(.2,.9,.2,1), box-shadow 220ms, border-color 220ms, background-color 220ms;
+    }
+    .social-btn .social-icon {
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border: 1px solid rgba(255,255,255,0.2);
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.12);
+    }
+    .social-btn svg { width:20px; height:20px; flex-shrink:0; fill: none; stroke: #ffffff; stroke-width:1.7; }
+    .social-btn .social-copy { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; }
+    .social-btn .social-kicker { font-size: 11px; text-transform: uppercase; letter-spacing: 0.12em; color: rgba(236,255,244,0.72); }
+    .social-btn .social-value { color: #ffffff; text-shadow: 0 1px 1px rgba(0,0,0,0.16); }
+    .btn-ig {
+      background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(209, 250, 229, 0.08)), linear-gradient(135deg, rgba(52, 211, 153, 0.16), rgba(5, 150, 105, 0.2));
+      border-color: rgba(214,255,231,0.22);
+    }
+    .btn-ig .social-icon {
+      background: linear-gradient(135deg, #34d399 0%, #10b981 55%, #047857 100%);
+    }
+    .btn-mail {
+      background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(209, 250, 229, 0.08)), linear-gradient(135deg, rgba(110, 231, 183, 0.14), rgba(6, 95, 70, 0.22));
+      border-color: rgba(214,255,231,0.22);
+    }
+    .btn-mail .social-icon {
+      background: linear-gradient(135deg, #6ee7b7 0%, #10b981 58%, #065f46 100%);
+    }
+
+    .social-btn:hover,
+    .social-btn:focus-visible {
+      transform: translateY(-6px);
+      border-color: #a7f3d0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.18), rgba(209, 250, 229, 0.12));
+      box-shadow: 0 18px 36px rgba(110,231,183,0.22), 0 0 0 1px rgba(167,243,208,0.18);
+    }
+    .social-btn:focus-visible { outline: none; }
+
+    @media (max-width:640px) {
+      .contact-social { padding: 0 18px; }
+      .contact-card { flex-direction:column; align-items:stretch; text-align:center; padding: 20px; }
+      .contact-meta { flex-direction:column; gap:8px; }
+      .contact-meta .sub { max-width: none; }
+      .contact-actions { justify-content:center; }
+      .social-btn { width: 100%; min-width: 0; justify-content: center; }
+      .social-btn .social-copy { align-items: center; }
+    }
+  </style>
+
+  <div class="contact-card" role="region" aria-label="Contact and Social">
+    <div class="contact-meta">
+      <div>
+        <div id="contactHeading" class="label">Contact & Social</div>
+        <div class="sub">Reach LexEasy on Instagram or send a quick email through a clean, premium contact panel.</div>
+      </div>
+    </div>
+
+    <div class="contact-actions">
+      <a class="social-btn btn-ig" href="https://instagram.com/lexeasy.in" target="_blank" rel="noopener noreferrer" aria-label="Instagram @lexeasy.in">
+        <span class="social-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5" ry="5"></rect><path d="M16.5 7.5a.9.9 0 1 1-1.8 0 .9.9 0 0 1 1.8 0z"></path><path d="M12 8.5a3.5 3.5 0 1 0 0 7 3.5 3.5 0 0 0 0-7z"></path></svg>
+        </span>
+        <span class="social-copy">
+          <span class="social-kicker">Instagram</span>
+          <span class="social-value">@lexeasy.in</span>
+        </span>
+      </a>
+
+      <a class="social-btn btn-mail" href="mailto:lexeasysupport@gmail.com" aria-label="Email lexeasysupport at gmail">
+        <span class="social-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M3 7.5v9a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-9"></path><polyline points="3 7.5 12 13 21 7.5"></polyline></svg>
+        </span>
+        <span class="social-copy">
+          <span class="social-kicker">Gmail</span>
+          <span class="social-value">lexeasysupport@gmail.com</span>
+        </span>
+      </a>
+    </div>
+  </div>
+</section>
 
 <footer>
-  <strong>LexEasy</strong> — <span data-i18n="footerMain">Understanding legal documents is everyone's right</span><br><br>
+  <strong>LexEasy</strong> â€” <span data-i18n="footerMain">Understanding legal documents is everyone's right</span><br><br>
   <span style="font-size:12px"><span data-i18n="footerSub">This is an AI-based tool, not professional legal advice. For serious matters, always consult a qualified lawyer.</span></span>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
+// ── SUPABASE AUTH ──────────────────────────────────────────────────────────
+(function(){
+  var SUPA_URL = 'YOUR_SUPABASE_URL';
+  var SUPA_KEY = 'YOUR_SUPABASE_ANON_KEY';
+  var _sb = null;
+  function getSB(){
+    if(!_sb && window.supabase && SUPA_URL !== 'YOUR_SUPABASE_URL'){
+      _sb = window.supabase.createClient(SUPA_URL, SUPA_KEY);
+    }
+    return _sb;
+  }
+
+  var _tab = 'login';
+
+  window.openAuth = function(){
+    document.getElementById('authBackdrop').classList.add('show');
+    document.getElementById('authModal').classList.add('show');
+    document.body.style.overflow = 'hidden';
+    resetAuthForm();
+  };
+  window.closeAuth = function(){
+    document.getElementById('authBackdrop').classList.remove('show');
+    document.getElementById('authModal').classList.remove('show');
+    document.body.style.overflow = '';
+  };
+  window.switchAuthTab = function(tab){
+    _tab = tab;
+    document.getElementById('tabLogin').classList.toggle('active', tab==='login');
+    document.getElementById('tabSignup').classList.toggle('active', tab==='signup');
+    document.getElementById('authSubtitle').textContent = tab==='login' ? 'Sign in to your account' : 'Create a free account';
+    document.getElementById('authSubmitBtn').textContent = tab==='login' ? 'Sign in →' : 'Create free account →';
+    document.getElementById('authMagicBtn').style.display = tab==='login' ? '' : 'none';
+    document.getElementById('authPassword').placeholder = tab==='signup' ? 'Min 6 characters' : '••••••••';
+    document.getElementById('authPassword').autocomplete = tab==='signup' ? 'new-password' : 'current-password';
+    clearAuthMsg();
+  };
+  function resetAuthForm(){
+    _tab = 'login';
+    switchAuthTab('login');
+    document.getElementById('authEmail').value = '';
+    document.getElementById('authPassword').value = '';
+    var sb2 = document.getElementById('authSuccessBox'); if(sb2) sb2.style.display='none';
+    var fw = document.getElementById('authFormWrap'); if(fw) fw.style.display='';
+  }
+  function clearAuthMsg(){
+    document.getElementById('authError').classList.remove('show');
+    var sb2 = document.getElementById('authSuccessBox'); if(sb2) sb2.style.display='none';
+  }
+  function showAuthError(msg){
+    var el = document.getElementById('authError');
+    el.textContent = msg;
+    el.classList.add('show');
+  }
+  function showAuthSuccess(msg){
+    var el = document.getElementById('authSuccess');
+    el.textContent = msg;
+    el.classList.add('show');
+    document.getElementById('authForm').style.display = 'none';
+  }
+  function setLoading(v){
+    document.getElementById('authSubmitBtn').disabled = v;
+    document.getElementById('authGoogleBtn').disabled = v;
+    document.getElementById('authMagicBtn').disabled = v;
+  }
+  function updateNavBtn(user){
+    var btn = document.getElementById('navSigninBtn');
+    if(!btn) return;
+    if(user){
+      var name = (user.user_metadata && user.user_metadata.full_name) || user.email.split('@')[0];
+      btn.textContent = name;
+    } else {
+      btn.textContent = 'Sign in';
+    }
+  }
+
+  window.authSubmit = async function(){
+    clearAuthMsg();
+    var sb = getSB();
+    if(!sb){ showAuthError('Auth not configured. Add Supabase keys.'); return; }
+    var email = document.getElementById('authEmail').value.trim();
+    var pass = document.getElementById('authPassword').value;
+    if(!email){ showAuthError('Please enter your email.'); return; }
+    if(!pass){ showAuthError('Please enter your password.'); return; }
+    setLoading(true);
+    var result = _tab==='login'
+      ? await sb.auth.signInWithPassword({email:email,password:pass})
+      : await sb.auth.signUp({email:email,password:pass});
+    setLoading(false);
+    if(result.error){ showAuthError(result.error.message); return; }
+    if(_tab==='login'){
+      updateNavBtn(result.data.user);
+      closeAuth();
+    } else {
+      showAuthSuccess('🎉 Check your inbox for a confirmation link!');
+    }
+  };
+
+  window.authMagicLink = async function(){
+    clearAuthMsg();
+    var sb = getSB();
+    if(!sb){ showAuthError('Auth not configured. Add Supabase keys.'); return; }
+    var email = document.getElementById('authEmail').value.trim();
+    if(!email){ showAuthError('Enter your email first.'); return; }
+    setLoading(true);
+    var result = await sb.auth.signInWithOtp({email:email});
+    setLoading(false);
+    if(result.error){ showAuthError(result.error.message); return; }
+    showAuthSuccess('📧 Magic link sent! Check your inbox.');
+  };
+
+  window.authWithGoogle = async function(){
+    var sb = getSB();
+    if(!sb){ showAuthError('Auth not configured. Add Supabase keys.'); return; }
+    setLoading(true);
+    var result = await sb.auth.signInWithOAuth({
+      provider:'google',
+      options:{redirectTo: window.location.origin + '/'}
+    });
+    if(result.error){ showAuthError(result.error.message); setLoading(false); }
+  };
+
+  // Check session on load
+  document.addEventListener('DOMContentLoaded', async function(){
+    var sb = getSB();
+    if(!sb) return;
+    var {data} = await sb.auth.getSession();
+    if(data && data.session) updateNavBtn(data.session.user);
+    sb.auth.onAuthStateChange(function(_e, session){
+      updateNavBtn(session ? session.user : null);
+    });
+  });
+
+  // Escape key closes modal
+  document.addEventListener('keydown', function(e){
+    if(e.key==='Escape') closeAuth();
+  });
+})();
+
 // Ensure `selectedFile` exists early to avoid TDZ errors from other scripts
 window.selectedFile = window.selectedFile || null;
+var pdfjsLib = window.pdfjsLib || null;
 
 // Ensure PDF.js is loaded (fallback loader if CDN blocked or not yet loaded)
 (function ensurePDFjs(){
+  function syncPdfjsGlobal() {
+    if (window.pdfjsLib) {
+      pdfjsLib = window.pdfjsLib;
+    }
+  }
+  syncPdfjsGlobal();
   if (typeof window.pdfjsLib === 'undefined'){
     var s = document.createElement('script');
-    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.min.js';
+    s.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
     s.async = false; // load synchronously so global is available
+    s.onload = syncPdfjsGlobal;
     document.head.appendChild(s);
   }
 })();
@@ -721,13 +1104,15 @@ const UI = {
 
 // PDF Worker Setup (wait until pdfjsLib is available)
 (function setPdfWorker(){
-  var workerUrl = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.4.168/pdf.worker.min.js';
+  var workerUrl = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
   if (window.pdfjsLib && window.pdfjsLib.GlobalWorkerOptions) {
+    pdfjsLib = window.pdfjsLib;
     window.pdfjsLib.GlobalWorkerOptions.workerSrc = workerUrl;
     return;
   }
   var t = setInterval(function(){
     if (window.pdfjsLib && window.pdfjsLib.GlobalWorkerOptions) {
+      pdfjsLib = window.pdfjsLib;
       window.pdfjsLib.GlobalWorkerOptions.workerSrc = workerUrl;
       clearInterval(t);
     }
@@ -759,16 +1144,79 @@ function removeFile() {
   UI.fileInput.value = '';
 }
 
-// ── CONFIG ─────────────────────────────────────────────────────
+// â”€â”€ CONFIG â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 // Use local serverless proxy to avoid browser CORS issues
 const BACKEND_URL = '/api/proxy-analyze';
+const RECAPTCHA_SITE_KEY = '6LdbLb8sAAAAACSFZfLuC6WxgHVr6paiHmEH6ttT';
+
+function escapeHtml(value) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function fixStaticCopy() {
+  const heroSub = document.querySelector('.hero-sub [data-i18n="herosub"]');
+  if (heroSub) {
+    heroSub.textContent = translations.en.herosub;
+  }
+
+  const removeBtn = document.querySelector('.fp-remove');
+  if (removeBtn) {
+    removeBtn.textContent = '\u2715';
+    removeBtn.setAttribute('aria-label', 'Remove selected file');
+  }
+
+  const hindiLabel = document.querySelector('#ropt-hi .resp-lang-text');
+  if (hindiLabel) {
+    hindiLabel.textContent = '\u0939\u093f\u0902\u0926\u0940';
+  }
+
+  const newDoc = document.querySelector('#reportButtons [data-i18n="newDoc"]');
+  if (newDoc) {
+    newDoc.textContent = '\u2190 New Document';
+  }
+
+  const redFlags = document.querySelector('[data-i18n="r2"]');
+  if (redFlags) {
+    redFlags.textContent = translations.en.r2;
+  }
+
+  const surveyUp = document.querySelector('.survey-btn.thumbs-up');
+  if (surveyUp) {
+    surveyUp.textContent = '\ud83d\udc4d';
+    surveyUp.setAttribute('aria-label', 'Satisfied');
+  }
+
+  const surveyDown = document.querySelector('.survey-btn.thumbs-down');
+  if (surveyDown) {
+    surveyDown.textContent = '\ud83d\udc4e';
+    surveyDown.setAttribute('aria-label', 'Not satisfied');
+  }
+
+  const modalClose = document.querySelector('.modal-ok-btn');
+  if (modalClose) {
+    modalClose.textContent = 'Understood \u2014 Close';
+  }
+
+  const featureCopy = document.querySelector('.features [data-i18n="f2d"]');
+  if (featureCopy) {
+    featureCopy.textContent = translations.en.f2d;
+  }
+
+  const footerStrong = document.querySelector('footer strong');
+  if (footerStrong && footerStrong.nextSibling) {
+    footerStrong.nextSibling.textContent = ' \u2014 ';
+  }
+}
 
 // Warm up the backend (Vercel cold start)
 async function pingBackend() {
   try {
-    // Just hit the root to wake it up, as /api/ping may not exist
-    await fetch(BACKEND_URL + '/'); 
-    console.log('Backend waking up...');
+    await fetch(BACKEND_URL, { method: 'GET', cache: 'no-store' });
   } catch (e) {
     // Ignore errors for ping
   }
@@ -814,7 +1262,11 @@ async function readFile(file) {
   const name = file.name.toLowerCase();
   if (name.endsWith('.pdf')) {
     const arrayBuffer = await file.arrayBuffer();
-    const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
+    const pdfjs = window.pdfjsLib || pdfjsLib;
+    if (!pdfjs || typeof pdfjs.getDocument !== 'function') {
+      throw new Error('PDF reader failed to load. Please refresh and try again.');
+    }
+    const pdf = await pdfjs.getDocument(arrayBuffer).promise;
     let text = '';
     for (let i = 1; i <= pdf.numPages; i++) {
       const page = await pdf.getPage(i);
@@ -839,7 +1291,9 @@ async function analyze() {
   // Get reCAPTCHA token
   let recaptchaToken = '';
   try {
-    recaptchaToken = await grecaptcha.execute('6LdbLb8sAAAAACSFZfLuC6WxgHVr6paiHmEH6ttT', {action: 'analyze'});
+    if (window.grecaptcha && typeof window.grecaptcha.execute === 'function') {
+      recaptchaToken = await grecaptcha.execute(RECAPTCHA_SITE_KEY, { action: 'analyze' });
+    }
   } catch (e) {
     showError('reCAPTCHA verification failed. Please try again.');
     return;
@@ -908,7 +1362,7 @@ async function analyze() {
     showError(humanizeError(err));
   } finally {
     UI.loading.classList.remove('show');
-    UI.analyzeBtn.disabled = false;
+    UI.analyzeBtn.disabled = !masterConsentChecked;
     UI.zone.classList.remove('processing');
   }
 }
@@ -949,18 +1403,51 @@ function showResult(d) {
   UI.safeBox.textContent = d.safe_points || '';
   UI.adviceBox.textContent = d.advice || '';
 
-  UI.flagsBox.innerHTML = (d.red_flags || []).map(f => `
-    <div class="flag-card ${f.severity || 'low'}" onclick="highlightSnippet('${f.snippet}')">
-      <span class="flag-badge">${f.severity || ''}</span>
-      <div>
-        <div class="flag-title">${f.title || ''}</div>
-        <div class="flag-detail">${f.detail || ''}</div>
-      </div>
-    </div>
-  `).join('') || `<div class="res-text" style="color:var(--emerald)">${getLang().noFlags}</div>`;
+  renderFlags(d.red_flags || []);
 
   UI.result.classList.add('show');
   UI.result.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+function renderFlags(flags) {
+  UI.flagsBox.innerHTML = '';
+
+  if (!Array.isArray(flags) || flags.length === 0) {
+    const empty = document.createElement('div');
+    empty.className = 'res-text';
+    empty.style.color = 'var(--emerald)';
+    empty.textContent = getLang().noFlags;
+    UI.flagsBox.appendChild(empty);
+    return;
+  }
+
+  flags.forEach((flag) => {
+    const severity = ['high', 'medium', 'low'].includes(flag?.severity) ? flag.severity : 'low';
+    const card = document.createElement('button');
+    card.type = 'button';
+    card.className = `flag-card ${severity}`;
+    card.addEventListener('click', () => highlightSnippet(flag?.snippet || ''));
+
+    const badge = document.createElement('span');
+    badge.className = 'flag-badge';
+    badge.textContent = severity;
+
+    const content = document.createElement('div');
+
+    const title = document.createElement('div');
+    title.className = 'flag-title';
+    title.textContent = flag?.title || '';
+
+    const detail = document.createElement('div');
+    detail.className = 'flag-detail';
+    detail.textContent = flag?.detail || '';
+
+    content.appendChild(title);
+    content.appendChild(detail);
+    card.appendChild(badge);
+    card.appendChild(content);
+    UI.flagsBox.appendChild(card);
+  });
 }
 
 function highlightSnippet(snippet) {
@@ -971,11 +1458,8 @@ function highlightSnippet(snippet) {
   const index = text.indexOf(snippet);
 
   if (index !== -1) {
-    const highlightedText = text.substring(0, index) +
-      `<span class="highlight">${snippet}</span>` +
-      text.substring(index + snippet.length);
-    
-    viewer.innerHTML = highlightedText;
+    viewer.innerHTML =
+      `${escapeHtml(text.substring(0, index))}<span class="highlight">${escapeHtml(snippet)}</span>${escapeHtml(text.substring(index + snippet.length))}`;
 
     const highlightElement = viewer.querySelector('.highlight');
     if (highlightElement) {
@@ -1052,13 +1536,121 @@ function downloadPDF() {
     document.body.removeChild(pdfWrapper);
   });
 }
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 
 // ===== I18N SYSTEM =====
 const translations = {
-  en: { eyebrow: "India's #1 Legal AI Assistant", h1accent: "Understood.", herosub: "Upload any document. AI will tell you in 30 seconds — is it safe to sign or not.", uploadTitle: "Upload Document", orDivider: "or paste text below", textareaLabel: "Document text", consentMaster: 'I understand <strong>LexEasy is not legal advice</strong> and I agree to the <button type="button" class="link-btn" onclick="event.stopPropagation(); openPrivacy()">Privacy Policy</button>.', btnReady: "Analyze Document", btnWait: "Accept to Continue", ls1: "Scanning your document...", ls2: "Identifying hidden clauses...", ls3: "Cross-referencing Indian laws...", ls4: "Preparing your report...", r1: "What is this document", r2: "Red flags — pay attention", r3: "Safe points", r4: "What should you do", resultTitle: "Analysis Report", downloadBtn: "Download PDF", newDoc: "← New Document", f1t: "30 Second Analysis", f1d: "A lawyer takes hours to read it. AI tells you in 30 seconds.", f2t: "Clear Language", f2d: "Plain language — no legal jargon, just straight answers", f3t: "100% Private", f3d: "Your document is never saved.", footerMain: "Understanding legal documents is everyone's right", respLangLabel: "AI responds in:", footerSub: "This is an AI-based tool, not professional legal advice.", scoreHigh: "Document Appears Safe", scoreMid: "Caution — Review Some Points", scoreLow: "Risky Document — Consult an Expert", noFlags: "No major red flags found.", alertFile: "Could not read file.", alertEmpty: "Please add a document or paste text first!" },
-  hi: { eyebrow: "भारत का नंबर 1 कानूनी AI असिस्टेंट", h1accent: "आसानी से समझें", herosub: "कोई भी दस्तावेज़ अपलोड करें। AI 30 सेकंड में बताएगा — साइन करना सुरक्षित है या नहीं।", uploadTitle: "दस्तावेज़ अपलोड करें", orDivider: "या टेक्स्ट पेस्ट करें", textareaLabel: "दस्तावेज़ का टेक्स्ट", consentMaster: 'मैं समझता/समझती हूँ कि <strong>LexEasy कानूनी सलाह नहीं है</strong> और मैं <button type="button" class="link-btn" onclick="event.stopPropagation(); openPrivacy()">Privacy Policy</button> से सहमत हूँ।', btnReady: "दस्तावेज़ जाँचें", btnWait: "आगे बढ़ने के लिए सहमति दें", ls1: "दस्तावेज़ स्कैन हो रहा है...", ls2: "छुपे हुए क्लॉज़ ढूंढे जा रहे हैं...", ls3: "भारतीय कानूनों से तुलना हो रही है...", ls4: "रिपोर्ट तैयार हो रही है...", r1: "यह दस्तावेज़ क्या है", r2: "रेड फ्लैग — ध्यान दें", r3: "सुरक्षित बिंदु", r4: "क्या करना चाहिए", resultTitle: "विश्लेषण रिपोर्ट", downloadBtn: "PDF डाउनलोड करें", newDoc: "← नया दस्तावेज़", f1t: "30 सेकंड विश्लेषण", f1d: "वकील घंटों में पढ़ता है, AI 30 सेकंड में बता देता है।", f2t: "सरल भाषा", f2d: "आसान हिंदी में — कोई कानूनी शब्दजाल नहीं, सीधी बात", f3t: "100% निजी", f3d: "आपका दस्तावेज़ कहीं सेव नहीं होता", footerMain: "कानूनी दस्तावेज़ समझना अब सबका अधिकार है", footerSub: "यह एक AI-आधारित टूल है, पेशेवर कानूनी सलाह नहीं।", scoreHigh: "दस्तावेज़ सुरक्षित लग रहा है", scoreMid: "सावधान — कुछ बिंदु जाँचें", scoreLow: "जोखिम भरा — विशेषज्ञ से मिलें", noFlags: "कोई बड़ा रेड फ्लैग नहीं मिला।", alertFile: "फ़ाइल नहीं पढ़ी जा सकी।", alertEmpty: "पहले कोई दस्तावेज़ या टेक्स्ट डालें!", respLangLabel: "AI किस भाषा में जवाब दे:" },
-  hinglish: { eyebrow: "India ka #1 Legal AI Assistant", h1accent: "Seedha Samjho", herosub: "Koi bhi document upload karo. AI 30 second mein batayega — sign karna safe hai ya nahi.", uploadTitle: "Document Upload Karo", orDivider: "ya text paste karo", textareaLabel: "Document ka text", consentMaster: 'Main samajhta/samajhti hoon ki <strong>LexEasy legal advice nahi hai</strong> aur main <button type="button" class="link-btn" onclick="event.stopPropagation(); openPrivacy()">Privacy Policy</button> se agree karta/karti hoon.', btnReady: "Document Check Karo", btnWait: "Aage badhne ke liye consent do", ls1: "Document scan kar rahe hain...", ls2: "Hidden clauses dhundh rahe hain...", ls3: "Indian laws se compare kar rahe hain...", ls4: "Report taiyaar ho rahi hai...", r1: "Document kya hai", r2: "Red flags — dhyan do", r3: "Safe points", r4: "Kya karna chahiye", resultTitle: "Analysis Report", downloadBtn: "PDF Download Karo", newDoc: "← Naya Document", f1t: "30 Second Analysis", f1d: "Lawyer ghanton mein padhta hai, AI 30 second mein bata deta hai.", f2t: "Hinglish Mein", f2d: "Simple Hindi-English mein — koi legal jargon nahi, seedhi baat", f3t: "100% Private", f3d: "Document kahi save nahi hota.", footerMain: "Legal documents samajhna ab sabka haq hai", respLangLabel: "AI kis language mein jawab de:", footerSub: "Ye ek AI-based tool hai, professional legal advice nahi.", scoreHigh: "Document Safe Lag Raha Hai", scoreMid: "Dhyan Se — Kuch Points Check Karo", scoreLow: "Risky Document — Expert Se Milna", noFlags: "Koi major red flag nahi mila.", alertFile: "File padh nahi paya.", alertEmpty: "Document ya text daalo pehle!" }
+  en: {
+    eyebrow: "India's #1 Legal AI Assistant",
+    h1accent: "Understood.",
+    herosub: "Upload any document. AI will tell you in 30 seconds \u2014 is it safe to sign or not.",
+    uploadTitle: "Upload Document",
+    orDivider: "or paste text below",
+    textareaLabel: "Document text",
+    consentMaster: 'I understand <strong>LexEasy is not legal advice</strong> and I agree to the <button type="button" class="link-btn" onclick="event.stopPropagation(); openPrivacy()">Privacy Policy</button>.',
+    btnReady: "Analyze Document",
+    btnWait: "Accept to Continue",
+    ls1: "Scanning your document...",
+    ls2: "Identifying hidden clauses...",
+    ls3: "Cross-referencing Indian laws...",
+    ls4: "Preparing your report...",
+    r1: "What is this document",
+    r2: "Red flags \u2014 pay attention",
+    r3: "Safe points",
+    r4: "What should you do",
+    resultTitle: "Analysis Report",
+    downloadBtn: "Download PDF",
+    newDoc: "\u2190 New Document",
+    f1t: "30 Second Analysis",
+    f1d: "A lawyer takes hours to read it. AI tells you in 30 seconds.",
+    f2t: "Clear Language",
+    f2d: "Plain language \u2014 no legal jargon, just straight answers",
+    f3t: "100% Private",
+    f3d: "Your document is never saved.",
+    footerMain: "Understanding legal documents is everyone's right",
+    respLangLabel: "AI responds in:",
+    footerSub: "This is an AI-based tool, not professional legal advice.",
+    scoreHigh: "Document Appears Safe",
+    scoreMid: "Caution \u2014 Review Some Points",
+    scoreLow: "Risky Document \u2014 Consult an Expert",
+    noFlags: "No major red flags found.",
+    alertFile: "Could not read file.",
+    alertEmpty: "Please add a document or paste text first!"
+  },
+  hi: {
+    eyebrow: "\u092d\u093e\u0930\u0924 \u0915\u093e \u0928\u0902\u092c\u0930 1 \u0915\u093e\u0928\u0942\u0928\u0940 AI \u0905\u0938\u093f\u0938\u094d\u091f\u0947\u0902\u091f",
+    h1accent: "\u0906\u0938\u093e\u0928\u0940 \u0938\u0947 \u0938\u092e\u091d\u0947\u0902",
+    herosub: "\u0915\u094b\u0908 \u092d\u0940 \u0926\u0938\u094d\u0924\u093e\u0935\u0947\u091c\u093c \u0905\u092a\u0932\u094b\u0921 \u0915\u0930\u0947\u0902\u0964 AI 30 \u0938\u0947\u0915\u0902\u0921 \u092e\u0947\u0902 \u092c\u0924\u093e\u090f\u0917\u093e \u2014 \u0938\u093e\u0907\u0928 \u0915\u0930\u0928\u093e \u0938\u0941\u0930\u0915\u094d\u0937\u093f\u0924 \u0939\u0948 \u092f\u093e \u0928\u0939\u0940\u0902\u0964",
+    uploadTitle: "\u0926\u0938\u094d\u0924\u093e\u0935\u0947\u091c\u093c \u0905\u092a\u0932\u094b\u0921 \u0915\u0930\u0947\u0902",
+    orDivider: "\u092f\u093e \u091f\u0947\u0915\u094d\u0938\u094d\u091f \u092a\u0947\u0938\u094d\u091f \u0915\u0930\u0947\u0902",
+    textareaLabel: "\u0926\u0938\u094d\u0924\u093e\u0935\u0947\u091c\u093c \u0915\u093e \u091f\u0947\u0915\u094d\u0938\u094d\u091f",
+    consentMaster: '\u092e\u0948\u0902 \u0938\u092e\u091d\u0924\u093e/\u0938\u092e\u091d\u0924\u0940 \u0939\u0942\u0901 \u0915\u093f <strong>LexEasy \u0915\u093e\u0928\u0942\u0928\u0940 \u0938\u0932\u093e\u0939 \u0928\u0939\u0940\u0902 \u0939\u0948</strong> \u0914\u0930 \u092e\u0948\u0902 <button type="button" class="link-btn" onclick="event.stopPropagation(); openPrivacy()">Privacy Policy</button> \u0938\u0947 \u0938\u0939\u092e\u0924 \u0939\u0942\u0901\u0964',
+    btnReady: "\u0926\u0938\u094d\u0924\u093e\u0935\u0947\u091c\u093c \u091c\u093e\u0901\u091a\u0947\u0902",
+    btnWait: "\u0906\u0917\u0947 \u092c\u0922\u093c\u0928\u0947 \u0915\u0947 \u0932\u093f\u090f \u0938\u0939\u092e\u0924\u093f \u0926\u0947\u0902",
+    ls1: "\u0926\u0938\u094d\u0924\u093e\u0935\u0947\u091c\u093c \u0938\u094d\u0915\u0948\u0928 \u0939\u094b \u0930\u0939\u093e \u0939\u0948...",
+    ls2: "\u091b\u0941\u092a\u0947 \u0939\u0941\u090f \u0915\u094d\u0932\u0949\u091c\u093c \u0922\u0942\u0902\u0922\u0947 \u091c\u093e \u0930\u0939\u0947 \u0939\u0948\u0902...",
+    ls3: "\u092d\u093e\u0930\u0924\u0940\u092f \u0915\u093e\u0928\u0942\u0928\u094b\u0902 \u0938\u0947 \u0924\u0941\u0932\u0928\u093e \u0939\u094b \u0930\u0939\u0940 \u0939\u0948...",
+    ls4: "\u0930\u093f\u092a\u094b\u0930\u094d\u091f \u0924\u0948\u092f\u093e\u0930 \u0939\u094b \u0930\u0939\u0940 \u0939\u0948...",
+    r1: "\u092f\u0939 \u0926\u0938\u094d\u0924\u093e\u0935\u0947\u091c\u093c \u0915\u094d\u092f\u093e \u0939\u0948",
+    r2: "\u0930\u0947\u0921 \u092b\u094d\u0932\u0948\u0917 \u2014 \u0927\u094d\u092f\u093e\u0928 \u0926\u0947\u0902",
+    r3: "\u0938\u0941\u0930\u0915\u094d\u0937\u093f\u0924 \u092c\u093f\u0902\u0926\u0941",
+    r4: "\u0915\u094d\u092f\u093e \u0915\u0930\u0928\u093e \u091a\u093e\u0939\u093f\u090f",
+    resultTitle: "\u0935\u093f\u0936\u094d\u0932\u0947\u0937\u0923 \u0930\u093f\u092a\u094b\u0930\u094d\u091f",
+    downloadBtn: "PDF \u0921\u093e\u0909\u0928\u0932\u094b\u0921 \u0915\u0930\u0947\u0902",
+    newDoc: "\u2190 \u0928\u092f\u093e \u0926\u0938\u094d\u0924\u093e\u0935\u0947\u091c\u093c",
+    f1t: "30 \u0938\u0947\u0915\u0902\u0921 \u0935\u093f\u0936\u094d\u0932\u0947\u0937\u0923",
+    f1d: "\u0935\u0915\u0940\u0932 \u0918\u0902\u091f\u094b\u0902 \u092e\u0947\u0902 \u092a\u0922\u093c\u0924\u093e \u0939\u0948, AI 30 \u0938\u0947\u0915\u0902\u0921 \u092e\u0947\u0902 \u092c\u0924\u093e \u0926\u0947\u0924\u093e \u0939\u0948\u0964",
+    f2t: "\u0938\u0930\u0932 \u092d\u093e\u0937\u093e",
+    f2d: "\u0906\u0938\u093e\u0928 \u0939\u093f\u0902\u0926\u0940 \u092e\u0947\u0902 \u2014 \u0915\u094b\u0908 \u0915\u093e\u0928\u0942\u0928\u0940 \u0936\u092c\u094d\u0926\u091c\u093e\u0932 \u0928\u0939\u0940\u0902, \u0938\u0940\u0927\u0940 \u092c\u093e\u0924",
+    f3t: "100% \u0928\u093f\u091c\u0940",
+    f3d: "\u0906\u092a\u0915\u093e \u0926\u0938\u094d\u0924\u093e\u0935\u0947\u091c\u093c \u0915\u0939\u0940\u0902 \u0938\u0947\u0935 \u0928\u0939\u0940\u0902 \u0939\u094b\u0924\u093e",
+    footerMain: "\u0915\u093e\u0928\u0942\u0928\u0940 \u0926\u0938\u094d\u0924\u093e\u0935\u0947\u091c\u093c \u0938\u092e\u091d\u0928\u093e \u0905\u092c \u0938\u092c\u0915\u093e \u0905\u0927\u093f\u0915\u093e\u0930 \u0939\u0948",
+    footerSub: "\u092f\u0939 \u090f\u0915 AI-\u0906\u0927\u093e\u0930\u093f\u0924 \u091f\u0942\u0932 \u0939\u0948, \u092a\u0947\u0936\u0947\u0935\u0930 \u0915\u093e\u0928\u0942\u0928\u0940 \u0938\u0932\u093e\u0939 \u0928\u0939\u0940\u0902\u0964",
+    scoreHigh: "\u0926\u0938\u094d\u0924\u093e\u0935\u0947\u091c\u093c \u0938\u0941\u0930\u0915\u094d\u0937\u093f\u0924 \u0932\u0917 \u0930\u0939\u093e \u0939\u0948",
+    scoreMid: "\u0938\u093e\u0935\u0927\u093e\u0928 \u2014 \u0915\u0941\u091b \u092c\u093f\u0902\u0926\u0941 \u091c\u093e\u0901\u091a\u0947\u0902",
+    scoreLow: "\u091c\u094b\u0916\u093f\u092e \u092d\u0930\u093e \u2014 \u0935\u093f\u0936\u0947\u0937\u091c\u094d\u091e \u0938\u0947 \u092e\u093f\u0932\u0947\u0902",
+    noFlags: "\u0915\u094b\u0908 \u092c\u0921\u093c\u093e \u0930\u0947\u0921 \u092b\u094d\u0932\u0948\u0917 \u0928\u0939\u0940\u0902 \u092e\u093f\u0932\u093e\u0964",
+    alertFile: "\u095e\u093e\u0907\u0932 \u0928\u0939\u0940\u0902 \u092a\u0922\u093c\u0940 \u091c\u093e \u0938\u0915\u0940\u0964",
+    alertEmpty: "\u092a\u0939\u0932\u0947 \u0915\u094b\u0908 \u0926\u0938\u094d\u0924\u093e\u0935\u0947\u091c\u093c \u092f\u093e \u091f\u0947\u0915\u094d\u0938\u094d\u091f \u0921\u093e\u0932\u0947\u0902!",
+    respLangLabel: "AI \u0915\u093f\u0938 \u092d\u093e\u0937\u093e \u092e\u0947\u0902 \u091c\u0935\u093e\u092c \u0926\u0947:"
+  },
+  hinglish: {
+    eyebrow: "India ka #1 Legal AI Assistant",
+    h1accent: "Seedha Samjho",
+    herosub: "Koi bhi document upload karo. AI 30 second mein batayega \u2014 sign karna safe hai ya nahi.",
+    uploadTitle: "Document Upload Karo",
+    orDivider: "ya text paste karo",
+    textareaLabel: "Document ka text",
+    consentMaster: 'Main samajhta/samajhti hoon ki <strong>LexEasy legal advice nahi hai</strong> aur main <button type="button" class="link-btn" onclick="event.stopPropagation(); openPrivacy()">Privacy Policy</button> se agree karta/karti hoon.',
+    btnReady: "Document Check Karo",
+    btnWait: "Aage badhne ke liye consent do",
+    ls1: "Document scan kar rahe hain...",
+    ls2: "Hidden clauses dhundh rahe hain...",
+    ls3: "Indian laws se compare kar rahe hain...",
+    ls4: "Report taiyaar ho rahi hai...",
+    r1: "Document kya hai",
+    r2: "Red flags \u2014 dhyan do",
+    r3: "Safe points",
+    r4: "Kya karna chahiye",
+    resultTitle: "Analysis Report",
+    downloadBtn: "PDF Download Karo",
+    newDoc: "\u2190 Naya Document",
+    f1t: "30 Second Analysis",
+    f1d: "Lawyer ghanton mein padhta hai, AI 30 second mein bata deta hai.",
+    f2t: "Hinglish Mein",
+    f2d: "Simple Hindi-English mein \u2014 koi legal jargon nahi, seedhi baat",
+    f3t: "100% Private",
+    f3d: "Document kahi save nahi hota.",
+    footerMain: "Legal documents samajhna ab sabka haq hai",
+    respLangLabel: "AI kis language mein jawab de:",
+    footerSub: "Ye ek AI-based tool hai, professional legal advice nahi.",
+    scoreHigh: "Document Safe Lag Raha Hai",
+    scoreMid: "Dhyan Se \u2014 Kuch Points Check Karo",
+    scoreLow: "Risky Document \u2014 Expert Se Milna",
+    noFlags: "Koi major red flag nahi mila.",
+    alertFile: "File padh nahi paya.",
+    alertEmpty: "Document ya text daalo pehle!"
+  }
 };
 
 let currentLang = 'en';
@@ -1118,7 +1710,38 @@ function closePrivacy() {
   document.getElementById('privacyModal').classList.remove('show');
 }
 
-// ── TYPEWRITER ANIMATION ───────────────────────────────────────────────────
+function showPricingPopup() {
+  document.getElementById('pricingBackdrop').classList.add('show');
+  document.getElementById('pricingModal').classList.add('show');
+  document.getElementById('pricingModal').setAttribute('aria-hidden', 'false');
+}
+
+function closePricingPopup() {
+  document.getElementById('pricingBackdrop').classList.remove('show');
+  document.getElementById('pricingModal').classList.remove('show');
+  document.getElementById('pricingModal').setAttribute('aria-hidden', 'true');
+}
+
+function shouldOpenPricingAfterLogin() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('showPricing') === '1') {
+    return true;
+  }
+
+  if (window.sessionStorage.getItem('lexeasyShowPricingOnLogin') === '1') {
+    window.sessionStorage.removeItem('lexeasyShowPricingOnLogin');
+    return true;
+  }
+
+  return false;
+}
+
+window.triggerPricingAfterLogin = function triggerPricingAfterLogin() {
+  window.sessionStorage.setItem('lexeasyShowPricingOnLogin', '1');
+  showPricingPopup();
+};
+
+// â”€â”€ TYPEWRITER ANIMATION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 const line1Text = "Legal Documents,";
 const line2Text = "Understood.";
 const line1El = document.getElementById('typewriter-line1');
@@ -1143,9 +1766,22 @@ async function runTypewriterOnce() {
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  fixStaticCopy();
+  setLang('en');
+  setRespLang('en');
+  if (shouldOpenPricingAfterLogin()) {
+    showPricingPopup();
+  }
   runTypewriterOnce();
   initMagneticButtons();
-  pingBackend(); // Wake up Render on load
+  pingBackend();
+});
+
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape') {
+    closePrivacy();
+    closePricingPopup();
+  }
 });
 
 // Also ping when user starts typing or interacts
@@ -1177,15 +1813,12 @@ function fireConfetti() {
 }
 
 function handleSurvey(isSatisfied) {
-  // Here you could send the feedback to your backend
-  console.log(`User feedback: ${isSatisfied ? 'Satisfied' : 'Not Satisfied'}`);
-  
   document.querySelector('#satisfactionSurvey .survey-buttons').style.display = 'none';
   document.querySelector('#satisfactionSurvey p').style.display = 'none';
   document.getElementById('surveyThanks').style.display = 'block';
 }
 
-// ── ANTI-BOT PROTECTION ───────────────────────────────────────────────────
+// â”€â”€ ANTI-BOT PROTECTION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 let lastAnalyzeTime = 0;
 const COOLDOWN_MS = 30000; // 30 seconds cooldown for humans
 
@@ -1207,7 +1840,8 @@ function checkBot() {
 
   return false;
 }
-// ─────────────────────────────────────────────────────────────────────────────
+// â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 </script>
 </body>
 </html>
+
