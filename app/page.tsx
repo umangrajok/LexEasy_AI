@@ -1,6 +1,9 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import Script from "next/script";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { AuthModal } from "@/components/AuthModal";
+
 
 type Analysis = {
   safety_score?: number;
@@ -18,15 +21,45 @@ const steps = [
   "Generating insights...",
 ];
 
+const TURNSTILE_SITE_KEY = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY || "";
+
+declare global {
+  interface Window {
+    turnstile?: {
+      render: (
+        container: string | HTMLElement,
+        options: {
+          sitekey: string;
+          size?: "invisible" | "normal" | "compact";
+          callback?: (token: string) => void;
+          "expired-callback"?: () => void;
+          "error-callback"?: () => void;
+        }
+      ) => string;
+      reset: (widgetId?: string) => void;
+      remove: (widgetId: string) => void;
+      execute: (widgetId?: string) => void;
+    };
+  }
+}
+
 export default function Page() {
   const [text, setText] = useState("");
   const [loading, setLoading] = useState(false);
   const [loadingStep, setLoadingStep] = useState(0);
   const [analysis, setAnalysis] = useState<Analysis | null>(null);
   const [error, setError] = useState("");
-  const [upgrade, setUpgrade] = useState(false);
   const [responseLang, setResponseLang] = useState("en");
+  const [website, setWebsite] = useState("");
+  const [captchaToken, setCaptchaToken] = useState("");
+  const [captchaLoaded, setCaptchaLoaded] = useState(false);
+  const [authOpen, setAuthOpen] = useState(false);
+  const captchaContainerRef = useRef<HTMLDivElement | null>(null);
+  const widgetIdRef = useRef<string | null>(null);
+  const captchaResolverRef = useRef<((token: string) => void) | null>(null);
   const canAnalyze = text.trim().length >= 20;
+
+  const isCaptchaEnabled = Boolean(TURNSTILE_SITE_KEY);
 
   const score = analysis?.safety_score ?? 0;
   const scoreLabel = useMemo(() => {
@@ -35,12 +68,58 @@ export default function Page() {
     return "High risk";
   }, [score]);
 
+  useEffect(() => {
+    if (!isCaptchaEnabled || !captchaLoaded || !captchaContainerRef.current || !window.turnstile) {
+      return;
+    }
+    if (widgetIdRef.current) return;
+
+    widgetIdRef.current = window.turnstile.render(captchaContainerRef.current, {
+      sitekey: TURNSTILE_SITE_KEY,
+      size: "invisible",
+      callback: (token: string) => setCaptchaToken(token),
+      "expired-callback": () => setCaptchaToken(""),
+      "error-callback": () => setCaptchaToken(""),
+    });
+  }, [captchaLoaded, isCaptchaEnabled]);
+
+  useEffect(() => {
+    if (captchaToken && captchaResolverRef.current) {
+      captchaResolverRef.current(captchaToken);
+      captchaResolverRef.current = null;
+    }
+  }, [captchaToken]);
+
+  async function ensureCaptchaToken() {
+    if (!isCaptchaEnabled) return "";
+    if (captchaToken) return captchaToken;
+    if (!window.turnstile || !widgetIdRef.current) return "";
+
+    window.turnstile.execute(widgetIdRef.current);
+
+    return await new Promise<string>((resolve) => {
+      captchaResolverRef.current = resolve;
+      setTimeout(() => {
+        if (captchaResolverRef.current) {
+          captchaResolverRef.current("");
+          captchaResolverRef.current = null;
+        }
+      }, 8000);
+    });
+  }
+
   async function onAnalyze() {
     setError("");
-    setUpgrade(false);
     setAnalysis(null);
     setLoading(true);
     setLoadingStep(0);
+
+    const resolvedCaptchaToken = await ensureCaptchaToken();
+    if (isCaptchaEnabled && !resolvedCaptchaToken) {
+      setError("Please complete the 'I'm not a robot' check.");
+      setLoading(false);
+      return;
+    }
 
     const timer = setInterval(() => {
       setLoadingStep((prev) => (prev < steps.length - 1 ? prev + 1 : prev));
@@ -50,13 +129,10 @@ export default function Page() {
       const res = await fetch("/api/analyze", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ text, responseLang, pageCount: 1 }),
+        body: JSON.stringify({ text, responseLang, website, captchaToken: resolvedCaptchaToken }),
       });
       const data = await res.json();
       if (!res.ok) {
-        if (res.status === 402 && data.code === "FREE_LIMIT_REACHED") {
-          setUpgrade(true);
-        }
         setError(data.error || "Failed to fetch analysis.");
         return;
       }
@@ -66,11 +142,29 @@ export default function Page() {
     } finally {
       clearInterval(timer);
       setLoading(false);
+      if (isCaptchaEnabled && widgetIdRef.current && window.turnstile) {
+        window.turnstile.reset(widgetIdRef.current);
+        setCaptchaToken("");
+      }
     }
   }
 
   return (
     <main className="page">
+      {isCaptchaEnabled ? (
+        <>
+          <Script
+            src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
+            strategy="afterInteractive"
+            onLoad={() => setCaptchaLoaded(true)}
+          />
+          <div
+            ref={captchaContainerRef}
+            aria-hidden="true"
+            style={{ position: "absolute", left: "-9999px", width: 0, height: 0, overflow: "hidden" }}
+          />
+        </>
+      ) : null}
       <div className="mesh" />
       <nav className="navbar">
         <div className="brand">LexEasy</div>
@@ -81,8 +175,27 @@ export default function Page() {
             <button className="langBtn">HI</button>
             <button className="langBtn">HG</button>
           </div>
+          <button
+            id="nav-signin"
+            onClick={() => setAuthOpen(true)}
+            style={{
+              border: "1px solid rgba(16,185,129,0.35)",
+              borderRadius: 999,
+              padding: "6px 16px",
+              fontSize: 13,
+              fontWeight: 600,
+              color: "var(--green-deep)",
+              background: "rgba(255,255,255,0.65)",
+              cursor: "pointer",
+              whiteSpace: "nowrap",
+            }}
+          >
+            Sign in
+          </button>
         </div>
       </nav>
+
+      {authOpen && <AuthModal onClose={() => setAuthOpen(false)} />}
 
       <section className="hero">
         <p className="eyebrow">India&apos;s #1 Legal AI Assistant</p>
@@ -102,6 +215,16 @@ export default function Page() {
       </section>
 
       <section className="card">
+        <input
+          type="text"
+          name="website"
+          value={website}
+          onChange={(e) => setWebsite(e.target.value)}
+          autoComplete="off"
+          tabIndex={-1}
+          aria-hidden="true"
+          style={{ position: "absolute", left: "-9999px", opacity: 0, pointerEvents: "none" }}
+        />
         <textarea
           className="input"
           placeholder="Paste legal text here (minimum 20 characters)..."
@@ -122,7 +245,6 @@ export default function Page() {
             {loading ? "Analyzing..." : "Analyze Instantly →"}
           </button>
         </div>
-
         {loading ? (
           <div className="loadingBox">
             <p>{steps[loadingStep]}</p>
@@ -135,19 +257,6 @@ export default function Page() {
         ) : null}
 
         {error ? <div className="error">{error}</div> : null}
-
-        {upgrade ? (
-          <div className="upgrade">
-            <h3>Upgrade to continue</h3>
-            <p>Free plan limit reached. Choose a plan to continue deep research.</p>
-            <div className="priceRow">
-              <span>INR 10/use</span>
-              <span>INR 99/mo</span>
-              <span>INR 199/3 mo</span>
-              <span>INR 299/6 mo</span>
-            </div>
-          </div>
-        ) : null}
       </section>
 
       {analysis ? (
