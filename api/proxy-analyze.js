@@ -134,17 +134,18 @@ ${text.slice(0, 4000)}`;
             responseMimeType: "application/json"
           },
           safetySettings: [
-            { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_NONE" },
-            { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_NONE" },
-            { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_NONE" },
-            { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_NONE" }
+            { category: "HARM_CATEGORY_HARASSMENT", threshold: "BLOCK_ONLY_HIGH" },
+            { category: "HARM_CATEGORY_HATE_SPEECH", threshold: "BLOCK_ONLY_HIGH" },
+            { category: "HARM_CATEGORY_SEXUALLY_EXPLICIT", threshold: "BLOCK_ONLY_HIGH" },
+            { category: "HARM_CATEGORY_DANGEROUS_CONTENT", threshold: "BLOCK_ONLY_HIGH" }
           ]
         }),
       }
     );
     const geminiText = await geminiRes.text();
     if (!geminiRes.ok) {
-      return res.status(502).json({ error: 'Gemini API error.', details: geminiText });
+      console.error("Gemini API error:", geminiRes.status, geminiText);
+      return res.status(400).json({ error: 'Gemini API error.', details: geminiText });
     }
 
     let analysis;
@@ -159,7 +160,8 @@ ${text.slice(0, 4000)}`;
       }
     } catch (e) {
       // Fallback
-      return res.status(502).json({ error: 'Could not parse Gemini response.', details: geminiText });
+      console.error("Parse error:", e, "Text:", geminiText);
+      return res.status(400).json({ error: 'Could not parse Gemini response.', details: geminiText });
     }
 
     return res.status(200).json({ success: true, analysis });
